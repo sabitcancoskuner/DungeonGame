@@ -1,25 +1,42 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.Tilemaps;
 
 public class DungeonGenerator : MonoBehaviour
 {
     private Vector2Int startPosition = Vector2Int.zero;
     [SerializeField] private WalkerSO walker;
 
+    // [SerializeField] private int corridorLength;
+    // [SerializeField] private int corridorCount;
+
     [SerializeField] private TileMapVisualizer tileMapVisualizer;
 
     public void GenerateDungeon()
     {
-        Vector2Int currentPosition = startPosition;
         HashSet<Vector2Int> floorPositions = new HashSet<Vector2Int>();
+
+        RunWalker(startPosition, floorPositions); // for creating first floor in the center
 
         for (int i = 0; i < walker.numOfWalkers; i++)
         {
-            RunWalker(currentPosition, floorPositions);
+            GenerateCorridors(walker.corridorLength, floorPositions);
+            // RunWalker(startPosition, floorPositions);
             PaintDungeonFloor(floorPositions);
             PaintDungeonWall(floorPositions, Direction.directionList);
+        }
+    }
+
+    private void GenerateCorridors(int corridorLength, HashSet<Vector2Int> floorPositions)
+    {
+        Vector2Int currentPosition = startPosition;
+
+        for (int i = 0; i < walker.corridorCount; i++)
+        {
+            var path = ProceduralAlgorithms.RandomCorridorAlgorithm(currentPosition, corridorLength);
+            currentPosition = path[path.Count - 1];
+            floorPositions.UnionWith(path);
+            RunWalker(currentPosition, floorPositions);
         }
     }
 

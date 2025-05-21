@@ -7,4 +7,7 @@ public class WalkerSO : ScriptableObject
     public int walkLength = 10;
     public int iteration = 5;
     public bool startFromRandomTile;
+    [Space]
+    public int corridorCount;
+    public int corridorLength;
 }

@@ -16,6 +16,23 @@ public static class ProceduralAlgorithms
 
         return path;
     }
+
+    public static List<Vector2Int> RandomCorridorAlgorithm(Vector2Int startPosition, int corridorLength)
+    {
+        List<Vector2Int> path = new List<Vector2Int>();
+        Vector2Int direction = Direction.GetRandomDirection();
+        var currentPosition = startPosition;
+
+        path.Add(currentPosition);
+
+        for (int i = 0; i < corridorLength; i++)
+        {
+            currentPosition += direction;
+            path.Add(currentPosition);
+        }
+
+        return path;
+    }
 }
 
 public static class Direction
