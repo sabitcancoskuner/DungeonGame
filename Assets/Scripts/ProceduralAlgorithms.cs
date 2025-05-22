@@ -37,7 +37,7 @@ public static class ProceduralAlgorithms
 
 public static class Direction
 {
-    public static List<Vector2Int> directionList = new List<Vector2Int>()
+    public static List<Vector2Int> fourWayDirectionList = new List<Vector2Int>()
     {
         Vector2Int.right,
         Vector2Int.left,
@@ -45,9 +45,21 @@ public static class Direction
         Vector2Int.up
     };
 
+    public static List<Vector2Int> eightWayDirectionList = new List<Vector2Int>()
+    {
+        new Vector2Int(0, 1), // up
+        new Vector2Int(0, -1), // down
+        new Vector2Int(1, 0), // right
+        new Vector2Int(-1, 0), // left
+        new Vector2Int(1, 1), // top right
+        new Vector2Int(1, -1), // down right
+        new Vector2Int(-1, 1), // top left
+        new Vector2Int(-1, -1) // down left
+    };
+
     public static Vector2Int GetRandomDirection()
     {
-        Vector2Int randomDirection = directionList[Random.Range(0, directionList.Count)];
+        Vector2Int randomDirection = fourWayDirectionList[Random.Range(0, fourWayDirectionList.Count)];
         return randomDirection;
     }
 }

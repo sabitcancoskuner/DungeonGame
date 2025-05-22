@@ -19,8 +19,6 @@ public class TileMapVisualizer : MonoBehaviour
         {
             PaintSingleTile(floorTilemap, floorTile, position);
         }
-
-        PaintEmptyTilesInside(floorPositions);
     }
 
     public void PaintWallTiles(HashSet<Vector2Int> wallPositions)
@@ -37,27 +35,4 @@ public class TileMapVisualizer : MonoBehaviour
         tilemap.SetTile((Vector3Int)position, tile);
     }
 
-    private void PaintEmptyTilesInside(HashSet<Vector2Int> floorPositions)
-    {
-        foreach (Vector2Int position in floorPositions)
-        {
-            Vector3Int tileCellPos = (Vector3Int)position;
-
-            if (floorTilemap.HasTile(tileCellPos) == false)
-            {
-                Vector3Int up = tileCellPos + Vector3Int.up;
-                Vector3Int down = tileCellPos + Vector3Int.down;
-                Vector3Int left = tileCellPos + Vector3Int.left;
-                Vector3Int right = tileCellPos + Vector3Int.right;
-
-                if (floorTilemap.GetTile(up) == floorTile &&
-                    floorTilemap.GetTile(down) == floorTile &&
-                    floorTilemap.GetTile(left) == floorTile &&
-                    floorTilemap.GetTile(right) == floorTile)
-                {
-                    PaintSingleTile(floorTilemap, floorTile, position);    
-                }
-            }
-        }
-    }
 }
