@@ -11,6 +11,7 @@ public class DungeonGenerator : MonoBehaviour
     [SerializeField] private TileMapVisualizer tileMapVisualizer;
 
     [Space]
+    [SerializeField] private int postProcessIterations = 5;
     [SerializeField] private int gapFillIterations = 3;
     [SerializeField] private int gapFillThreshold = 5;
 
@@ -21,21 +22,22 @@ public class DungeonGenerator : MonoBehaviour
     private HashSet<Vector2Int> floorTilesToPaint = new HashSet<Vector2Int>();
     private HashSet<Vector2Int> wallTilesToPaint = new HashSet<Vector2Int>();
 
-
     public void GenerateDungeon()
     {
-        HashSet<Vector2Int> floorPositions = new HashSet<Vector2Int>();
 
         floorTilesToPaint.Clear();
         wallTilesToPaint.Clear();
 
-        RunWalker(startPosition, floorPositions); // for creating first floor in the center
+        RunWalker(startPosition, this.floorTilesToPaint); // for creating first floor in the center
 
         for (int i = 0; i < walker.numOfWalkers; i++)
         {
-            GenerateDungeonCorridors(walker.corridorLength, floorPositions);
+            GenerateDungeonCorridors(walker.corridorLength);
             GenerateDungeonWall(floorTilesToPaint);
+        }
 
+        for (int i = 0; i < postProcessIterations; i++)
+        {
             FloorPostProcessing(floorTilesToPaint, wallTilesToPaint);
             WallPostProcessing(floorTilesToPaint, wallTilesToPaint);
         }
@@ -44,7 +46,7 @@ public class DungeonGenerator : MonoBehaviour
         tileMapVisualizer.PaintWallTiles(wallTilesToPaint);
     }
 
-    private void GenerateDungeonCorridors(int corridorLength, HashSet<Vector2Int> floorPositions)
+    private void GenerateDungeonCorridors(int corridorLength)
     {
         Vector2Int currentPosition = startPosition;
 
@@ -52,9 +54,8 @@ public class DungeonGenerator : MonoBehaviour
         {
             var path = ProceduralAlgorithms.RandomCorridorAlgorithm(currentPosition, corridorLength);
             currentPosition = path[path.Count - 1];
-            floorPositions.UnionWith(path);
-            RunWalker(currentPosition, floorPositions);
-            this.floorTilesToPaint.UnionWith(floorPositions);
+            this.floorTilesToPaint.UnionWith(path);
+            RunWalker(currentPosition, this.floorTilesToPaint);
         }
     }
 
@@ -97,9 +98,13 @@ public class DungeonGenerator : MonoBehaviour
         List<Vector2Int> tilesToFill = new List<Vector2Int>();
         int neighbourCount = 0;
 
+        HashSet<Vector2Int> allTilePositions = new HashSet<Vector2Int>();
+        allTilePositions.UnionWith(floorTilePositions);
+        allTilePositions.UnionWith(wallTilePositions);
+
         for (int i = 0; i < gapFillIterations; i++)
         {
-            foreach (Vector2Int position in wallTilePositions)
+            foreach (Vector2Int position in allTilePositions)
             {
                 foreach (Vector2Int direction in Direction.eightWayDirectionList)
                 {

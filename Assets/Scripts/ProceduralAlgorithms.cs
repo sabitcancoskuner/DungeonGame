@@ -29,6 +29,16 @@ public static class ProceduralAlgorithms
         {
             currentPosition += direction;
             path.Add(currentPosition);
+
+            if (direction == Vector2Int.up || direction == Vector2Int.down)
+            {
+                path.Add(currentPosition + Vector2Int.right);
+            }
+
+            else if (direction == Vector2Int.left || direction == Vector2Int.right)
+            {
+                path.Add(currentPosition + Vector2Int.down);
+            }
         }
 
         return path;
