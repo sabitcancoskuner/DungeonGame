@@ -169,7 +169,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -183,7 +183,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 32
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -207,7 +207,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -248,10 +248,10 @@ TextureImporter:
       name: Soldier_0
       rect:
         serializedVersion: 2
-        x: 40
-        y: 639
-        width: 19
-        height: 23
+        x: 0
+        y: 600
+        width: 100
+        height: 100
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -270,10 +270,10 @@ TextureImporter:
       name: Soldier_1
       rect:
         serializedVersion: 2
-        x: 140
-        y: 639
-        width: 19
-        height: 23
+        x: 100
+        y: 600
+        width: 100
+        height: 100
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -292,10 +292,10 @@ TextureImporter:
       name: Soldier_2
       rect:
         serializedVersion: 2
-        x: 240
-        y: 639
-        width: 19
-        height: 24
+        x: 200
+        y: 600
+        width: 100
+        height: 100
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -314,10 +314,10 @@ TextureImporter:
       name: Soldier_3
       rect:
         serializedVersion: 2
-        x: 340
-        y: 639
-        width: 19
-        height: 24
+        x: 300
+        y: 600
+        width: 100
+        height: 100
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -336,10 +336,10 @@ TextureImporter:
       name: Soldier_4
       rect:
         serializedVersion: 2
-        x: 440
-        y: 639
-        width: 19
-        height: 23
+        x: 400
+        y: 600
+        width: 100
+        height: 100
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -358,10 +358,10 @@ TextureImporter:
       name: Soldier_5
       rect:
         serializedVersion: 2
-        x: 540
-        y: 639
-        width: 19
-        height: 23
+        x: 500
+        y: 600
+        width: 100
+        height: 100
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -380,10 +380,10 @@ TextureImporter:
       name: Soldier_6
       rect:
         serializedVersion: 2
-        x: 40
-        y: 539
-        width: 19
-        height: 23
+        x: 0
+        y: 500
+        width: 100
+        height: 100
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -402,10 +402,10 @@ TextureImporter:
       name: Soldier_7
       rect:
         serializedVersion: 2
-        x: 140
-        y: 539
-        width: 19
-        height: 24
+        x: 100
+        y: 500
+        width: 100
+        height: 100
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -424,10 +424,10 @@ TextureImporter:
       name: Soldier_8
       rect:
         serializedVersion: 2
-        x: 240
-        y: 539
-        width: 19
-        height: 23
+        x: 200
+        y: 500
+        width: 100
+        height: 100
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -446,10 +446,10 @@ TextureImporter:
       name: Soldier_9
       rect:
         serializedVersion: 2
-        x: 340
-        y: 539
-        width: 19
-        height: 22
+        x: 300
+        y: 500
+        width: 100
+        height: 100
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -468,10 +468,10 @@ TextureImporter:
       name: Soldier_10
       rect:
         serializedVersion: 2
-        x: 440
-        y: 539
-        width: 19
-        height: 23
+        x: 400
+        y: 500
+        width: 100
+        height: 100
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -490,10 +490,10 @@ TextureImporter:
       name: Soldier_11
       rect:
         serializedVersion: 2
-        x: 540
-        y: 539
-        width: 19
-        height: 24
+        x: 500
+        y: 500
+        width: 100
+        height: 100
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -512,10 +512,10 @@ TextureImporter:
       name: Soldier_12
       rect:
         serializedVersion: 2
-        x: 640
-        y: 539
-        width: 19
-        height: 23
+        x: 600
+        y: 500
+        width: 100
+        height: 100
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -534,10 +534,10 @@ TextureImporter:
       name: Soldier_13
       rect:
         serializedVersion: 2
-        x: 740
-        y: 539
-        width: 19
-        height: 22
+        x: 700
+        y: 500
+        width: 100
+        height: 100
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -556,10 +556,10 @@ TextureImporter:
       name: Soldier_14
       rect:
         serializedVersion: 2
-        x: 40
-        y: 439
-        width: 19
-        height: 23
+        x: 0
+        y: 400
+        width: 100
+        height: 100
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -578,10 +578,10 @@ TextureImporter:
       name: Soldier_15
       rect:
         serializedVersion: 2
-        x: 140
-        y: 439
-        width: 21
-        height: 29
+        x: 100
+        y: 400
+        width: 100
+        height: 100
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -600,10 +600,10 @@ TextureImporter:
       name: Soldier_16
       rect:
         serializedVersion: 2
-        x: 240
-        y: 439
-        width: 22
-        height: 28
+        x: 200
+        y: 400
+        width: 100
+        height: 100
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -622,10 +622,10 @@ TextureImporter:
       name: Soldier_17
       rect:
         serializedVersion: 2
-        x: 335
-        y: 439
-        width: 36
-        height: 22
+        x: 300
+        y: 400
+        width: 100
+        height: 100
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -644,10 +644,10 @@ TextureImporter:
       name: Soldier_18
       rect:
         serializedVersion: 2
-        x: 435
-        y: 439
-        width: 36
-        height: 22
+        x: 400
+        y: 400
+        width: 100
+        height: 100
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -666,10 +666,10 @@ TextureImporter:
       name: Soldier_19
       rect:
         serializedVersion: 2
-        x: 535
-        y: 439
-        width: 24
-        height: 22
+        x: 500
+        y: 400
+        width: 100
+        height: 100
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -688,10 +688,10 @@ TextureImporter:
       name: Soldier_20
       rect:
         serializedVersion: 2
-        x: 40
-        y: 339
-        width: 19
-        height: 23
+        x: 0
+        y: 300
+        width: 100
+        height: 100
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -710,10 +710,10 @@ TextureImporter:
       name: Soldier_21
       rect:
         serializedVersion: 2
-        x: 140
-        y: 346
-        width: 21
-        height: 24
+        x: 100
+        y: 300
+        width: 100
+        height: 100
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -732,10 +732,10 @@ TextureImporter:
       name: Soldier_22
       rect:
         serializedVersion: 2
-        x: 242
-        y: 347
-        width: 20
-        height: 22
+        x: 200
+        y: 300
+        width: 100
+        height: 100
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -754,10 +754,10 @@ TextureImporter:
       name: Soldier_23
       rect:
         serializedVersion: 2
-        x: 341
-        y: 339
-        width: 30
-        height: 26
+        x: 300
+        y: 300
+        width: 100
+        height: 100
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -776,10 +776,10 @@ TextureImporter:
       name: Soldier_24
       rect:
         serializedVersion: 2
-        x: 441
-        y: 339
-        width: 30
-        height: 20
+        x: 400
+        y: 300
+        width: 100
+        height: 100
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -798,10 +798,10 @@ TextureImporter:
       name: Soldier_25
       rect:
         serializedVersion: 2
-        x: 541
-        y: 339
-        width: 30
-        height: 21
+        x: 500
+        y: 300
+        width: 100
+        height: 100
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -820,10 +820,10 @@ TextureImporter:
       name: Soldier_26
       rect:
         serializedVersion: 2
-        x: 143
-        y: 339
-        width: 15
-        height: 7
+        x: 0
+        y: 200
+        width: 100
+        height: 100
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -842,10 +842,10 @@ TextureImporter:
       name: Soldier_27
       rect:
         serializedVersion: 2
-        x: 245
-        y: 339
-        width: 15
-        height: 7
+        x: 100
+        y: 200
+        width: 100
+        height: 100
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -864,10 +864,10 @@ TextureImporter:
       name: Soldier_28
       rect:
         serializedVersion: 2
-        x: 40
-        y: 239
-        width: 21
-        height: 23
+        x: 200
+        y: 200
+        width: 100
+        height: 100
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -886,10 +886,10 @@ TextureImporter:
       name: Soldier_29
       rect:
         serializedVersion: 2
-        x: 140
-        y: 239
-        width: 19
-        height: 23
+        x: 300
+        y: 200
+        width: 100
+        height: 100
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -908,10 +908,10 @@ TextureImporter:
       name: Soldier_30
       rect:
         serializedVersion: 2
-        x: 240
-        y: 239
-        width: 19
-        height: 24
+        x: 400
+        y: 200
+        width: 100
+        height: 100
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -930,10 +930,10 @@ TextureImporter:
       name: Soldier_31
       rect:
         serializedVersion: 2
-        x: 340
-        y: 239
-        width: 19
-        height: 23
+        x: 500
+        y: 200
+        width: 100
+        height: 100
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -952,10 +952,10 @@ TextureImporter:
       name: Soldier_32
       rect:
         serializedVersion: 2
-        x: 440
-        y: 239
-        width: 24
-        height: 23
+        x: 600
+        y: 200
+        width: 100
+        height: 100
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -974,10 +974,10 @@ TextureImporter:
       name: Soldier_33
       rect:
         serializedVersion: 2
-        x: 540
-        y: 239
-        width: 23
-        height: 22
+        x: 700
+        y: 200
+        width: 100
+        height: 100
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -996,10 +996,10 @@ TextureImporter:
       name: Soldier_34
       rect:
         serializedVersion: 2
-        x: 640
-        y: 239
-        width: 22
-        height: 22
+        x: 800
+        y: 200
+        width: 100
+        height: 100
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1018,10 +1018,10 @@ TextureImporter:
       name: Soldier_35
       rect:
         serializedVersion: 2
-        x: 740
-        y: 239
-        width: 38
-        height: 23
+        x: 0
+        y: 100
+        width: 100
+        height: 100
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1040,10 +1040,10 @@ TextureImporter:
       name: Soldier_36
       rect:
         serializedVersion: 2
-        x: 840
-        y: 239
-        width: 25
-        height: 23
+        x: 100
+        y: 100
+        width: 100
+        height: 100
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1062,10 +1062,10 @@ TextureImporter:
       name: Soldier_37
       rect:
         serializedVersion: 2
-        x: 39
-        y: 139
-        width: 20
-        height: 23
+        x: 200
+        y: 100
+        width: 100
+        height: 100
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1084,10 +1084,10 @@ TextureImporter:
       name: Soldier_38
       rect:
         serializedVersion: 2
-        x: 139
-        y: 139
-        width: 20
-        height: 23
+        x: 300
+        y: 100
+        width: 100
+        height: 100
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1106,10 +1106,10 @@ TextureImporter:
       name: Soldier_39
       rect:
         serializedVersion: 2
-        x: 239
-        y: 139
-        width: 20
-        height: 23
+        x: 0
+        y: 0
+        width: 100
+        height: 100
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1128,10 +1128,10 @@ TextureImporter:
       name: Soldier_40
       rect:
         serializedVersion: 2
-        x: 339
-        y: 139
-        width: 20
-        height: 23
+        x: 100
+        y: 0
+        width: 100
+        height: 100
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1150,10 +1150,10 @@ TextureImporter:
       name: Soldier_41
       rect:
         serializedVersion: 2
-        x: 40
-        y: 39
-        width: 19
-        height: 23
+        x: 200
+        y: 0
+        width: 100
+        height: 100
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1172,10 +1172,10 @@ TextureImporter:
       name: Soldier_42
       rect:
         serializedVersion: 2
-        x: 140
-        y: 39
-        width: 19
-        height: 21
+        x: 300
+        y: 0
+        width: 100
+        height: 100
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1190,55 +1190,11 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
-    - serializedVersion: 2
-      name: Soldier_43
-      rect:
-        serializedVersion: 2
-        x: 244
-        y: 39
-        width: 18
-        height: 19
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 9af65f20aedcfcbd0800000000000000
-      internalID: -2607639254268547159
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Soldier_44
-      rect:
-        serializedVersion: 2
-        x: 345
-        y: 39
-        width: 24
-        height: 15
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 2a087e2dcde267e40800000000000000
-      internalID: 5653757908176306338
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
     outline: []
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: f795abb7f46fbb549b95009a6e375d41
     internalID: 0
     vertices: []
     indices: 
@@ -1247,7 +1203,50 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Soldier_0: -3868812660829053132
+      Soldier_1: 4748496047744815929
+      Soldier_10: 2742716491997213031
+      Soldier_11: -62850490490929932
+      Soldier_12: 1974314120003528485
+      Soldier_13: -1692326888749062731
+      Soldier_14: -8366205455049171761
+      Soldier_15: -7202218996535425993
+      Soldier_16: 2005700920829779246
+      Soldier_17: -8503598735362372552
+      Soldier_18: 6623777501556897501
+      Soldier_19: 1444713933976088483
+      Soldier_2: 2805721153289186860
+      Soldier_20: -2456867076102776368
+      Soldier_21: 233768993629577626
+      Soldier_22: -5651435147518545271
+      Soldier_23: 6755985663967675594
+      Soldier_24: -5687253064817044187
+      Soldier_25: -7404624186788814934
+      Soldier_26: 235376660964857629
+      Soldier_27: -3603710560016398688
+      Soldier_28: 2776055807973595377
+      Soldier_29: 2180410314965149893
+      Soldier_3: -5331859181223373285
+      Soldier_30: -5707902934612390786
+      Soldier_31: -1334288636235299032
+      Soldier_32: 4927697857163613625
+      Soldier_33: 1282726659025278273
+      Soldier_34: -8271518659021732292
+      Soldier_35: 6025165729927441604
+      Soldier_36: 6712230105077093423
+      Soldier_37: -4285923211763185300
+      Soldier_38: 156713526631975120
+      Soldier_39: 2133790352986412820
+      Soldier_4: 8924183435215946824
+      Soldier_40: 5816303354900572512
+      Soldier_41: 6284592324512227996
+      Soldier_42: 7050324879617185217
+      Soldier_5: 152417265559848108
+      Soldier_6: -5572970920532211618
+      Soldier_7: -2880666656720651278
+      Soldier_8: -1733617733217763490
+      Soldier_9: -7227817022452064393
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
