@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f3c24e69991a1c40b9280fa43d9fef9, type: 3}
   m_Name: Big Room Walker
   m_EditorClassIdentifier: 
-  numOfWalkers: 10
-  walkLength: 50
+  numOfWalkers: 5
+  walkLength: 150
   iteration: 15
   startFromRandomTile: 0
-  corridorCount: 2
-  corridorLength: 35
+  corridorCount: 4
+  corridorLength: 50

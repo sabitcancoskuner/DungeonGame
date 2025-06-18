@@ -62,8 +62,8 @@ public static class Direction
         new Vector2Int(1, 0), // right
         new Vector2Int(-1, 0), // left
         new Vector2Int(1, 1), // top right
-        new Vector2Int(1, -1), // down right
         new Vector2Int(-1, 1), // top left
+        new Vector2Int(1, -1), // down right
         new Vector2Int(-1, -1) // down left
     };
 

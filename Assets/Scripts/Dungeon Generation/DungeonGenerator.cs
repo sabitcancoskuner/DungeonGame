@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class DungeonGenerator : MonoBehaviour
 {
@@ -20,13 +21,22 @@ public class DungeonGenerator : MonoBehaviour
     [SerializeField] private int wallFlipThreshold = 3;
 
     private HashSet<Vector2Int> floorTilesToPaint = new HashSet<Vector2Int>();
+
     private HashSet<Vector2Int> wallTilesToPaint = new HashSet<Vector2Int>();
+    private List<Vector2Int> wallTileDirections = new List<Vector2Int>();
+
+    private List<Vector2Int> wallConnectorsToPaint = new List<Vector2Int>();
+    private List<Vector2Int> wallConnectorsDirections = new List<Vector2Int>();
 
     public void GenerateDungeon()
     {
 
         floorTilesToPaint.Clear();
         wallTilesToPaint.Clear();
+        wallTileDirections.Clear();
+
+        wallConnectorsToPaint.Clear();
+        wallConnectorsDirections.Clear();
 
         RunWalker(startPosition, this.floorTilesToPaint); // for creating first floor in the center
 
@@ -42,8 +52,13 @@ public class DungeonGenerator : MonoBehaviour
             WallPostProcessing(floorTilesToPaint, wallTilesToPaint);
         }
 
+        FindAllConnectorPositions(floorTilesToPaint, wallTilesToPaint);
+
+        GetAllWallDirections(floorTilesToPaint, wallTilesToPaint, wallTileDirections);
+
         tileMapVisualizer.PaintFloorTiles(floorTilesToPaint);
-        tileMapVisualizer.PaintWallTiles(wallTilesToPaint);
+        tileMapVisualizer.PaintWallTiles(wallTilesToPaint, wallTileDirections);
+        tileMapVisualizer.PaintWallConnectors(wallConnectorsToPaint, wallConnectorsDirections);
     }
 
     private void GenerateDungeonCorridors(int corridorLength)
@@ -135,6 +150,12 @@ public class DungeonGenerator : MonoBehaviour
 
     private void WallPostProcessing(HashSet<Vector2Int> floorTilePositions, HashSet<Vector2Int> wallTilePositions)
     {
+        CellularAutomataForWall(floorTilePositions, wallTilePositions); // to fill empty spaces next to the newly generated floor tiles
+        GenerateDungeonWall(floorTilesToPaint);
+    }
+
+    private void CellularAutomataForWall(HashSet<Vector2Int> floorTilePositions, HashSet<Vector2Int> wallTilePositions)
+    {
         List<Vector2Int> wallTilesToRemove = new List<Vector2Int>();
         int floorNeighbourCount = 0;
         int wallNeighbourCount = 0;
@@ -179,7 +200,174 @@ public class DungeonGenerator : MonoBehaviour
                 wallTilesToPaint.Remove(tile);
             }
         }
+    }
 
-        GenerateDungeonWall(floorTilesToPaint);
+    private void FindAllConnectorPositions(HashSet<Vector2Int> floorTilePositions, HashSet<Vector2Int> wallTilePositions)
+    {
+        foreach (Vector2Int position in wallTilePositions)
+        {
+            if (floorTilePositions.Contains(position + Vector2Int.up)) // bottom tile
+            {
+                if (floorTilePositions.Contains(position + Vector2Int.right)) // bottom left tile
+                {
+                    wallConnectorsToPaint.Add(position + Vector2Int.down);
+                    wallConnectorsDirections.Add(new Vector2Int(-1, -1));
+
+                    wallConnectorsToPaint.Add(position + Vector2Int.left);
+                    wallConnectorsDirections.Add(new Vector2Int(-1, -1));
+                }
+
+                else if (floorTilePositions.Contains(position + Vector2Int.left)) // bottom right tile
+                {
+                    wallConnectorsToPaint.Add(position + Vector2Int.down);
+                    wallConnectorsDirections.Add(new Vector2Int(1, -1));
+
+                    wallConnectorsToPaint.Add(position + Vector2Int.right);
+                    wallConnectorsDirections.Add(new Vector2Int(1, -1));
+                }
+
+                else if (wallTilePositions.Contains(position + Vector2Int.right) == false && wallTilePositions.Contains(position + Vector2Int.left) == false)
+                {
+                    wallConnectorsToPaint.Add(position + Vector2Int.right);
+                    wallConnectorsDirections.Add(new Vector2Int(1, -1));
+
+                    wallConnectorsToPaint.Add(position + Vector2Int.left);
+                    wallConnectorsDirections.Add(new Vector2Int(-1, -1));
+                }
+
+                else if (wallTilePositions.Contains(position + Vector2Int.right) == false) // bottom right tile
+                {
+                    wallConnectorsToPaint.Add(position + Vector2Int.right);
+                    wallConnectorsDirections.Add(new Vector2Int(1, -1));
+                }
+
+                else if (wallTilePositions.Contains(position + Vector2Int.left) == false) // bottom left file
+                {
+                    wallConnectorsToPaint.Add(position + Vector2Int.left);
+                    wallConnectorsDirections.Add(new Vector2Int(-1, -1));
+                }
+            }
+
+            else if (floorTilePositions.Contains(position + Vector2Int.down)) // top tile
+            {
+                if (floorTilePositions.Contains(position + Vector2Int.right)) // top left tile
+                {
+                    wallConnectorsToPaint.Add(position + Vector2Int.up);
+                    wallConnectorsDirections.Add(new Vector2Int(-1, 1));
+
+                    wallConnectorsToPaint.Add(position + Vector2Int.left);
+                    wallConnectorsDirections.Add(new Vector2Int(-1, 1));
+                }
+
+                else if (floorTilePositions.Contains(position + Vector2Int.left)) // top right tile
+                {
+                    wallConnectorsToPaint.Add(position + Vector2Int.up);
+                    wallConnectorsDirections.Add(new Vector2Int(1, 1));
+
+                    wallConnectorsToPaint.Add(position + Vector2Int.right);
+                    wallConnectorsDirections.Add(new Vector2Int(1, 1));
+                }
+
+                else if (wallTilePositions.Contains(position + Vector2Int.right) == false && wallTilePositions.Contains(position + Vector2Int.left) == false)
+                {
+                    wallConnectorsToPaint.Add(position + Vector2Int.right);
+                    wallConnectorsDirections.Add(new Vector2Int(1, 1));
+
+                    wallConnectorsToPaint.Add(position + Vector2Int.left);
+                    wallConnectorsDirections.Add(new Vector2Int(-1, 1));
+                }
+
+                else if (wallTilePositions.Contains(position + Vector2Int.right) == false) // top right tile
+                {
+                    wallConnectorsToPaint.Add(position + Vector2Int.right);
+                    wallConnectorsDirections.Add(new Vector2Int(1, 1));
+                }
+
+                else if (wallTilePositions.Contains(position + Vector2Int.left) == false) // top left file
+                {
+                    wallConnectorsToPaint.Add(position + Vector2Int.left);
+                    wallConnectorsDirections.Add(new Vector2Int(-1, 1));
+                }
+            }
+        }
+    }
+
+    private void GetAllWallDirections(HashSet<Vector2Int> floorTilePositions, HashSet<Vector2Int> wallTilePositions, List<Vector2Int> wallTilesDirectionList)
+    {
+        foreach (Vector2Int wallTile in wallTilePositions)
+        {
+            if (floorTilePositions.Contains(wallTile + Vector2Int.up)) // then it is a bottom tile
+            {
+                if (floorTilesToPaint.Contains(wallTile + Vector2Int.left))
+                {
+                    wallTilesDirectionList.Add(new Vector2Int(1, -1)); // bottom right tile
+                }
+
+                else if (floorTilesToPaint.Contains(wallTile + Vector2Int.right))
+                {
+                    wallTilesDirectionList.Add(new Vector2Int(-1, -1)); // bottom left tile
+                }
+
+                else
+                {
+                    wallTilesDirectionList.Add(Vector2Int.down);
+                }
+            }
+
+            else if (floorTilePositions.Contains(wallTile + Vector2Int.down)) // then it is a top tile
+            {
+                if (floorTilesToPaint.Contains(wallTile + Vector2Int.left))
+                {
+                    wallTilesDirectionList.Add(new Vector2Int(1, 1)); // top right tile
+                }
+
+                else if (floorTilesToPaint.Contains(wallTile + Vector2Int.right))
+                {
+                    wallTilesDirectionList.Add(new Vector2Int(-1, 1)); // top left tile
+                }
+
+                else
+                {
+                    wallTilesDirectionList.Add(Vector2Int.up);
+                }
+            }
+
+            else if (floorTilePositions.Contains(wallTile + Vector2Int.left)) // then it is a right tile
+            {
+                if (floorTilePositions.Contains(wallTile + Vector2Int.up))
+                {
+                    wallTilesDirectionList.Add(new Vector2Int(1, -1)); // bottom right tile
+                }
+
+                else if (floorTilePositions.Contains(wallTile + Vector2Int.down))
+                {
+                    wallTilesDirectionList.Add(new Vector2Int(1, 1)); // top right tile
+                }
+
+                else
+                {
+                    wallTilesDirectionList.Add(Vector2Int.right);
+                }
+            }
+
+            else if (floorTilePositions.Contains(wallTile + Vector2Int.right)) // then it is a left tile
+            {
+                if (floorTilePositions.Contains(wallTile + Vector2Int.up))
+                {
+                    wallTilesDirectionList.Add(new Vector2Int(-1, -1)); // bottom left tile
+                }
+
+                else if (floorTilePositions.Contains(wallTile + Vector2Int.down))
+                {
+                    wallTilesDirectionList.Add(new Vector2Int(-1, 1)); // top left tile
+                }
+
+                else
+                {
+                    wallTilesDirectionList.Add(Vector2Int.left);
+                }
+            }
+
+        }
     }
 }

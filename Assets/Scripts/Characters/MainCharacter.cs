@@ -1,16 +1,24 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class MainCharacter : Entity
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    [SerializeField] private InputActionReference move;
+    protected Vector2 moveInput;
+
+    protected override void Start()
     {
-        
+        base.Start();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        
+        moveInput = move.action.ReadValue<Vector2>();
     }
+
+    private void FixedUpdate()
+    {
+        rb.linearVelocity = moveInput * moveSpeed;
+    }
+    
 }
