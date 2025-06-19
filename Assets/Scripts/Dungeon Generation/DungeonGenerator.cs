@@ -1,8 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class DungeonGenerator : MonoBehaviour
 {
@@ -21,6 +19,7 @@ public class DungeonGenerator : MonoBehaviour
     [SerializeField] private int wallFlipThreshold = 3;
 
     private HashSet<Vector2Int> floorTilesToPaint = new HashSet<Vector2Int>();
+    private List<Vector2Int> floorTileDirections = new List<Vector2Int>();
 
     private HashSet<Vector2Int> wallTilesToPaint = new HashSet<Vector2Int>();
     private List<Vector2Int> wallTileDirections = new List<Vector2Int>();
@@ -32,6 +31,8 @@ public class DungeonGenerator : MonoBehaviour
     {
 
         floorTilesToPaint.Clear();
+        floorTileDirections.Clear();
+
         wallTilesToPaint.Clear();
         wallTileDirections.Clear();
 
@@ -52,11 +53,12 @@ public class DungeonGenerator : MonoBehaviour
             WallPostProcessing(floorTilesToPaint, wallTilesToPaint);
         }
 
-        FindAllConnectorPositions(floorTilesToPaint, wallTilesToPaint);
+        FindAllConnectorPositions(floorTilesToPaint, wallTilesToPaint); // for wall connectors
 
+        GetAllFloorDirections(floorTilesToPaint, wallTilesToPaint, floorTileDirections);
         GetAllWallDirections(floorTilesToPaint, wallTilesToPaint, wallTileDirections);
 
-        tileMapVisualizer.PaintFloorTiles(floorTilesToPaint);
+        tileMapVisualizer.PaintFloorTiles(floorTilesToPaint, floorTileDirections);
         tileMapVisualizer.PaintWallTiles(wallTilesToPaint, wallTileDirections);
         tileMapVisualizer.PaintWallConnectors(wallConnectorsToPaint, wallConnectorsDirections);
     }
@@ -370,4 +372,76 @@ public class DungeonGenerator : MonoBehaviour
 
         }
     }
+
+    private void GetAllFloorDirections(HashSet<Vector2Int> floorTilePositions, HashSet<Vector2Int> wallTilePositions, List<Vector2Int> floorTileDirectionList)
+    {
+        foreach (Vector2Int tilePos in floorTilePositions)
+        {
+            if (wallTilePositions.Contains(tilePos + Vector2Int.up)) // top tile
+            {
+                if (wallTilePositions.Contains(tilePos + Vector2Int.right)) // top right tile
+                {
+                    floorTileDirectionList.Add(new Vector2Int(1, 1));
+                }
+
+                else if (wallTilePositions.Contains(tilePos + Vector2Int.left)) // top left tile
+                {
+                    floorTileDirectionList.Add(new Vector2Int(-1, 1));
+                }
+
+                else
+                {
+                    floorTileDirectionList.Add(Vector2Int.up);
+                }
+            }
+
+            else if (wallTilePositions.Contains(tilePos + Vector2Int.down)) // down tile
+            {
+                if (wallTilePositions.Contains(tilePos + Vector2Int.right)) // down right tile
+                {
+                    floorTileDirectionList.Add(new Vector2Int(1, -1));
+                }
+
+                else if (wallTilePositions.Contains(tilePos + Vector2Int.left)) // down left tile
+                {
+                    floorTileDirectionList.Add(new Vector2Int(-1, -1));
+                }
+
+                else
+                {
+                    floorTileDirectionList.Add(Vector2Int.down);
+                }
+            }
+
+            else if (wallTilePositions.Contains(tilePos + Vector2Int.left)) // left tile
+            {
+                if (wallTilePositions.Contains(tilePos + Vector2Int.right)) // left right tile
+                {
+                    floorTileDirectionList.Add(new Vector2Int(2, 2)); 
+                }
+                else
+                {
+                    floorTileDirectionList.Add(Vector2Int.left);
+                }
+            }
+
+            else if (wallTilePositions.Contains(tilePos + Vector2Int.right)) // right tile
+            {
+                if (wallTilePositions.Contains(tilePos + Vector2Int.left)) // left right tile
+                {
+                    floorTileDirectionList.Add(new Vector2Int(2, 2)); 
+                }
+                else
+                {
+                    floorTileDirectionList.Add(Vector2Int.right);
+                }
+            }
+
+            else
+            {
+                floorTileDirectionList.Add(Vector2Int.zero);
+            }
+        }
+    }
+
 }
