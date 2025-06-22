@@ -11,9 +11,9 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
-  - 
+  - Wall
+  - Floor
+  - Player
   - 
   - 
   - 
@@ -44,11 +44,11 @@ TagManager:
   - name: Floor
     uniqueID: 3663838699
     locked: 0
-  - name: Wall
-    uniqueID: 1705353573
-    locked: 0
   - name: Player
     uniqueID: 707326857
+    locked: 0
+  - name: Wall
+    uniqueID: 1705353573
     locked: 0
   m_RenderingLayers:
   - Default

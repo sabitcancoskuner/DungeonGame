@@ -1,8 +1,9 @@
+using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerWalkState : PlayerState
+public class PlayerBaseAttackState : PlayerState
 {
-    public PlayerWalkState(Player _player, PlayerStateMachine _stateMachine, string _animName) : base(_player, _stateMachine, _animName)
+    public PlayerBaseAttackState(Player _player, PlayerStateMachine _stateMachine, string _animName) : base(_player, _stateMachine, _animName)
     {
     }
 
@@ -15,9 +16,7 @@ public class PlayerWalkState : PlayerState
     {
         base.Update();
 
-        player.rb.linearVelocity = player.moveInput * player.moveSpeed;
-
-        if (player.moveInput == Vector2.zero)
+        if (attackTriggerCalled)
         {
             stateMachine.ChangeState(player.idleState);
         }
@@ -26,5 +25,6 @@ public class PlayerWalkState : PlayerState
     public override void Exit()
     {
         base.Exit();
+        attackTriggerCalled = false;
     }
 }

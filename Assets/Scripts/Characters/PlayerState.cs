@@ -5,6 +5,7 @@ public class PlayerState
     public Player player { get; private set; }
     public PlayerStateMachine stateMachine { get; private set; }
     public string animBoolName { get; private set; }
+    public bool attackTriggerCalled = false;
 
     public PlayerState(Player _player, PlayerStateMachine _stateMachine, string _animName)
     {
@@ -20,11 +21,19 @@ public class PlayerState
 
     public virtual void Update()
     {
-    
+        if (player.moveInput.x < 0 && player.facingDirection == 1 || player.moveInput.x > 0 && player.facingDirection == -1)
+        {
+            player.FlipSprite();
+        }
     }
 
     public virtual void Exit()
     {
         player.animator.SetBool(animBoolName, false);
+    }
+
+    public void AttackAnimationFinishTrigger()
+    {
+        attackTriggerCalled = true;
     }
 }

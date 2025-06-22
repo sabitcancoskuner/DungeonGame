@@ -2,10 +2,12 @@ using UnityEngine;
 
 public class Entity : MonoBehaviour
 {
-    protected Rigidbody2D rb;
+    public Rigidbody2D rb { get; private set; }
 
     public float moveSpeed;
     public int facingDirection { get; private set; } = 1; // 1 for right, -1 for left
+    public float knockbackDuration;
+    public float knockbackSpeed;
 
     protected virtual void Start()
     {
@@ -21,5 +23,10 @@ public class Entity : MonoBehaviour
     public void SetZeroVelocity()
     {
         rb.linearVelocity = Vector2.zero;
+    }
+
+    public void HitKnockback(float knockbackSpeed)
+    {
+        rb.linearVelocity = new Vector2(facingDirection * -knockbackSpeed, 0);
     }
 }
