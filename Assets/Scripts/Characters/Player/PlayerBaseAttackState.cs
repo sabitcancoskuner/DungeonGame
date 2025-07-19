@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerBaseAttackState : PlayerState
@@ -10,13 +9,15 @@ public class PlayerBaseAttackState : PlayerState
     public override void Enter()
     {
         base.Enter();
+
+        player.SetZeroVelocity();
     }
 
     public override void Update()
     {
         base.Update();
 
-        if (attackTriggerCalled)
+        if (baseAttackTriggerCalled)
         {
             stateMachine.ChangeState(player.idleState);
         }
@@ -25,6 +26,6 @@ public class PlayerBaseAttackState : PlayerState
     public override void Exit()
     {
         base.Exit();
-        attackTriggerCalled = false;
+        baseAttackTriggerCalled = false;
     }
 }

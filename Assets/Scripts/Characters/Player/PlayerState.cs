@@ -5,7 +5,9 @@ public class PlayerState
     public Player player { get; private set; }
     public PlayerStateMachine stateMachine { get; private set; }
     public string animBoolName { get; private set; }
-    public bool attackTriggerCalled = false;
+    public bool baseAttackTriggerCalled = false;
+    public bool secondaryAttackTriggerCalled = false;
+    public bool specialAttackTriggerCalled = false;
 
     public PlayerState(Player _player, PlayerStateMachine _stateMachine, string _animName)
     {
@@ -32,8 +34,18 @@ public class PlayerState
         player.animator.SetBool(animBoolName, false);
     }
 
-    public void AttackAnimationFinishTrigger()
+    public void BaseAttackAnimationFinishTrigger()
     {
-        attackTriggerCalled = true;
+        baseAttackTriggerCalled = true;
+    }
+
+    public void SecondaryAttackAnimationFinishTrigger()
+    {
+        secondaryAttackTriggerCalled = true;
+    }
+    
+    public void SpecialAttackAnimationFinishTrigger()
+    {
+        specialAttackTriggerCalled = true;
     }
 }

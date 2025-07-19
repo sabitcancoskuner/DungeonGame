@@ -24,9 +24,18 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Special Attack",
+                    "name": "Secondary Attack",
                     "type": "Button",
                     "id": "b9f62d46-2af9-4a34-9a05-6c3580abb57c",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Special Attack",
+                    "type": "Button",
+                    "id": "e3a17051-399b-49f3-9f12-2ab70fe138ec",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -173,7 +182,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard and Mouse",
-                    "action": "Special Attack",
+                    "action": "Secondary Attack",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -184,6 +193,28 @@
                     "interactions": "",
                     "processors": "",
                     "groups": ";Gamepad",
+                    "action": "Secondary Attack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "9015b7d4-7f75-4f4e-b696-61d3c24cdc2f",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Special Attack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c35d1349-d890-4697-a78a-e7e4df6fba36",
+                    "path": "<Gamepad>/leftTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
                     "action": "Special Attack",
                     "isComposite": false,
                     "isPartOfComposite": false

@@ -25,6 +25,11 @@ public class Entity : MonoBehaviour
         rb.linearVelocity = Vector2.zero;
     }
 
+    public void SetVelocity(float speed)
+    {
+        moveSpeed = speed;
+    }
+
     public void HitKnockback(float knockbackSpeed)
     {
         rb.linearVelocity = new Vector2(facingDirection * -knockbackSpeed, 0);

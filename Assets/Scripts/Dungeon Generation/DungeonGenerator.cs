@@ -27,6 +27,10 @@ public class DungeonGenerator : MonoBehaviour
     private List<Vector2Int> wallConnectorsToPaint = new List<Vector2Int>();
     private List<Vector2Int> wallConnectorsDirections = new List<Vector2Int>();
 
+    private void Start() {
+        GenerateDungeon();
+    }
+
     public void GenerateDungeon()
     {
 
