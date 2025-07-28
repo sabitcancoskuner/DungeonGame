@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class SoldierBaseAttackState : PlayerBaseAttackState
 {
-    public SoldierBaseAttackState(Player _player, PlayerStateMachine _stateMachine, string _animName) : base(_player, _stateMachine, _animName)
+    public SoldierBaseAttackState(Soldier _soldier, PlayerStateMachine _stateMachine, string _animName) : base(_soldier, _stateMachine, _animName)
     {
     }
 

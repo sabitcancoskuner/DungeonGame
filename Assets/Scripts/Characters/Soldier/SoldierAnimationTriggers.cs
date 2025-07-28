@@ -1,12 +1,16 @@
 using UnityEngine;
+using Unity.Cinemachine;
 
 public class SoldierAnimationTriggers : MonoBehaviour, IPlayerAnimationTriggers
 {
     private Soldier soldier;
 
+    private CinemachineImpulseSource impulseSource;
+
     private void Awake()
     {
         soldier = GetComponentInParent<Soldier>();
+        impulseSource = GetComponent<CinemachineImpulseSource>();
     }
 
     public void BaseAttackAnimationFinishTrigger()
@@ -30,7 +34,7 @@ public class SoldierAnimationTriggers : MonoBehaviour, IPlayerAnimationTriggers
 
         foreach (var hit in colliders)
         {
-            if (hit.GetComponent<Enemy>() != null) // change this to enemy
+            if (hit.GetComponent<Enemy>() != null) 
             {
                 Debug.Log("Hit an enemy.");
             }
@@ -39,9 +43,15 @@ public class SoldierAnimationTriggers : MonoBehaviour, IPlayerAnimationTriggers
 
     private void ArrowAttackTrigger()
     {
-        // instantiate arrow
-        Debug.Log("Arrow attack triggered.");
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(soldier.arrowAttackPoint.position, soldier.arrowAttackRange);
+        Vector3 closestTargetPos = soldier.FindClosestTargetInArrowRange(colliders);
+        GameObject arrow = Instantiate(soldier.arrowPrefab, soldier.attackPoint.position, Quaternion.identity);
+
+        BasicArrowController arrowController = arrow.GetComponent<BasicArrowController>();
+        arrowController.target = closestTargetPos;
+
     }
+
 
     private void ArrowChargeTrigger()
     {
@@ -49,6 +59,7 @@ public class SoldierAnimationTriggers : MonoBehaviour, IPlayerAnimationTriggers
         {
             Debug.Log("Arrow charge triggered.");
             soldier.animator.speed = 0;
+            CameraManager.instance.StartCoroutine(CameraManager.instance.ZoomCamera(0.5f, 0.4f));
         }
     }
 
@@ -56,6 +67,12 @@ public class SoldierAnimationTriggers : MonoBehaviour, IPlayerAnimationTriggers
     {
         // Handle special attack logic here
         Debug.Log("Special attack triggered.");
-    }
 
+        // Trigger camera shake effect
+        float shakeVelocityX = Random.Range(-1f, 1f);
+        float shakeVelocityY = Random.Range(-1f, 1f);
+        impulseSource.DefaultVelocity = new Vector2(shakeVelocityX, shakeVelocityY);
+        CameraShakeManager.instance.ShakeCamera(impulseSource);
+    }
+    
 }

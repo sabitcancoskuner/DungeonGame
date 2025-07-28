@@ -2,27 +2,34 @@ using UnityEngine;
 
 public class SoldierArrowAttackState : PlayerSecondaryAttackState
 {
-    public SoldierArrowAttackState(Player _player, PlayerStateMachine _stateMachine, string _animName) : base(_player, _stateMachine, _animName)
+    public Soldier soldier;
+
+    public SoldierArrowAttackState(Soldier _soldier, PlayerStateMachine _stateMachine, string _animName) : base(_soldier, _stateMachine, _animName)
     {
+        this.soldier = _soldier;
     }
 
     public override void Enter()
     {
         base.Enter();
+
+        soldier.arrowAttackIndicator.SetActive(true);
     }
 
     public override void Update()
     {
         base.Update();
 
-        if (!Input.GetKey(KeyCode.Mouse1) && player.animator.speed == 0)
+        if (soldier.animator.speed == 0) // if animation speed is 0 then it is charging an arrow
         {
-            player.animator.speed = 1; // continue secondary attack animation when right click is released
+            stateMachine.ChangeState(soldier.arrowChargingState);
         }
     }
 
     public override void Exit()
     {
         base.Exit();
+        
+        soldier.arrowAttackIndicator.SetActive(false);
     }
 }
