@@ -2,24 +2,38 @@ using UnityEngine;
 
 public class BasicArrowController : MonoBehaviour
 {
-    public float arrowSpeed = 10f;
-    public Vector3 target;
+    [SerializeField] private float arrowSpeed = 10f;
+    [SerializeField] private float arrowLifeTime = 3f;
+    [SerializeField] private Vector3 targetPos;
 
+    private Animator animator;
 
     private void Start()
     {
-        RotateArrow();
+        animator = GetComponent<Animator>();
     }
 
     void Update()
     {
-        transform.position = Vector3.MoveTowards(transform.position, target, arrowSpeed * Time.deltaTime);
+        transform.position = Vector3.MoveTowards(transform.position, targetPos, arrowSpeed * Time.deltaTime);
+        arrowLifeTime -= Time.deltaTime;
+
+        if (arrowLifeTime <= 0f)
+        {
+            DestroyArrow();
+        }
+    }
+
+    public void SetTargetPos(Vector3 newTarget)
+    {
+        targetPos = newTarget;
+        RotateArrow();
     }
 
     private void RotateArrow()
     {
         // Rotate the arrow to face the target direction
-        Vector3 direction = (target - transform.position).normalized;
+        Vector3 direction = (targetPos - transform.position).normalized;
 
         if (direction != Vector3.zero)
         {
@@ -27,16 +41,29 @@ public class BasicArrowController : MonoBehaviour
             transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
         }
     }
-    
+
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.GetComponent<Enemy>() != null)
         {
+            arrowSpeed = 0f;
+
             // Handle collision with enemy
             Debug.Log("Arrow hit an enemy.");
+            animator.SetBool("Pierce", true);
+        }
+        else if (other.gameObject.layer == LayerMask.NameToLayer("Wall"))
+        {
+            // Handle collision with wall
+            Debug.Log("Arrow hit a wall.");
+            DestroyArrow();
         }
 
-        Destroy(gameObject); // Destroy the arrow on hit
+    }
+    
+    private void DestroyArrow()
+    {
+        Destroy(gameObject);
     }
     
 }

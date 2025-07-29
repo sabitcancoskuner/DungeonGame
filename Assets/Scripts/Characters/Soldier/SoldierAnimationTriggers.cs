@@ -34,7 +34,7 @@ public class SoldierAnimationTriggers : MonoBehaviour, IPlayerAnimationTriggers
 
         foreach (var hit in colliders)
         {
-            if (hit.GetComponent<Enemy>() != null) 
+            if (hit.GetComponent<Enemy>() != null)
             {
                 Debug.Log("Hit an enemy.");
             }
@@ -48,7 +48,7 @@ public class SoldierAnimationTriggers : MonoBehaviour, IPlayerAnimationTriggers
         GameObject arrow = Instantiate(soldier.arrowPrefab, soldier.attackPoint.position, Quaternion.identity);
 
         BasicArrowController arrowController = arrow.GetComponent<BasicArrowController>();
-        arrowController.target = closestTargetPos;
+        arrowController.SetTargetPos(closestTargetPos);
 
     }
 
@@ -66,13 +66,17 @@ public class SoldierAnimationTriggers : MonoBehaviour, IPlayerAnimationTriggers
     private void SpecialAttackTrigger()
     {
         // Handle special attack logic here
-        Debug.Log("Special attack triggered.");
 
         // Trigger camera shake effect
         float shakeVelocityX = Random.Range(-1f, 1f);
         float shakeVelocityY = Random.Range(-1f, 1f);
         impulseSource.DefaultVelocity = new Vector2(shakeVelocityX, shakeVelocityY);
         CameraShakeManager.instance.ShakeCamera(impulseSource);
+    }
+    
+    private void ShowSpecialAttackAreaOfEffect()
+    {
+        AreaOfEffectVisualizer.instance.ShowAreaOfEffect(soldier.transform.position, soldier.specialAttackRange ,soldier.animator.GetCurrentAnimatorClipInfo(0)[0].clip.length * 0.9f);
     }
     
 }

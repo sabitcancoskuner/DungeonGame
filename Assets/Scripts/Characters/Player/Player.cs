@@ -49,7 +49,7 @@ public class Player : Entity
         stateMachine.currentState.Update();
     }
 
-    private void OnDrawGizmos()
+    protected virtual void OnDrawGizmos()
     {
         // Attack range visualization
         Gizmos.color = Color.red;

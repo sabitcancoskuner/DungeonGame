@@ -20,6 +20,8 @@ public class SoldierArrowAttackState : PlayerSecondaryAttackState
     {
         base.Update();
 
+        soldier.UpdateArrowIndicator(); // update the arrow attack indicator position
+
         if (soldier.animator.speed == 0) // if animation speed is 0 then it is charging an arrow
         {
             stateMachine.ChangeState(soldier.arrowChargingState);

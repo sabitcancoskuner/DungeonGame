@@ -1,23 +1,26 @@
-using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class Soldier : Player
 {
-    #region PlayerClass Specific States
-    public SoldierBaseAttackState baseAttackState { get; private set; }
-    public SoldierArrowAttackState arrowAttackState { get; private set; }
-    public SoldierArrowChargingState arrowChargingState { get; private set; }
-    public SoldierSpecialAttackState specialAttackState { get; private set; }
-    #endregion
-
-    public GameObject arrowPrefab;
+    [Header("Class Specific Settings")]
+    [SerializeField] public GameObject arrowPrefab;
     public Transform arrowAttackPoint;
     public float arrowAttackRange = 5f;
 
     // Arrow Attack Indicator
     public GameObject arrowAttackIndicator;
     private float indicatorDistance;
+
+    // Special Attack Area of Effect
+    public float specialAttackRange = 1f;
+
+    #region PlayerClass Specific States
+    public SoldierBaseAttackState baseAttackState { get; private set; }
+    public SoldierArrowAttackState arrowAttackState { get; private set; }
+    public SoldierArrowChargingState arrowChargingState { get; private set; }
+    public SoldierSpecialAttackState specialAttackState { get; private set; }
+    #endregion
 
     protected override void Awake()
     {
@@ -40,7 +43,6 @@ public class Soldier : Player
     {
         base.Update();
 
-        UpdateArrowIndicator();
     }
 
     private void Attack(InputAction.CallbackContext context)
@@ -72,17 +74,22 @@ public class Soldier : Player
         specialAttack.action.started -= SpecialAttack;
     }
 
-    private void OnDrawGizmos()
+    protected override void OnDrawGizmos()
     {
+        base.OnDrawGizmos();
         // Draw attack range for arrow attack
         Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(arrowAttackPoint.position, arrowAttackRange);
+
+        // Draw special attack range
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, specialAttackRange);
     }
     
     public Vector3 FindClosestTargetInArrowRange(Collider2D[] colliders)
     {
         float closestDistance = float.MaxValue;
-        Vector3 closestTarget = transform.position + new Vector3(10f * facingDirection, 0f, 0f); // this is a default position if no target is found
+        Vector3 closestTarget = transform.position + new Vector3(9999999f * facingDirection, 0f, 0f); // this is a default position if no target is found
         
         foreach (var collider in colliders)
         {
@@ -97,10 +104,19 @@ public class Soldier : Player
             }
         }
 
+        if (closestTarget.x < transform.position.x && facingDirection == 1)
+        {
+            FlipSprite(); // Update facing direction if target is to the left
+        }
+        else if (closestTarget.x > transform.position.x && facingDirection == -1)
+        {
+            FlipSprite(); // Update facing direction if target is to the right
+        }   
+
         return closestTarget;
     }
 
-    private void UpdateArrowIndicator()
+    public void UpdateArrowIndicator()
     {
         if (arrowAttackIndicator.activeSelf == false) return;
 
@@ -117,6 +133,7 @@ public class Soldier : Player
 
         // Rotate indicator to point toward target
         float angle = Mathf.Atan2(directionToTarget.y, directionToTarget.x) * Mathf.Rad2Deg;
-        arrowAttackIndicator.transform.rotation = Quaternion.AngleAxis(angle - 90, Vector3.forward); // remove -90
+        angle += facingDirection < 0 ? 180f : 0f; // Adjust angle based on facing direction
+        arrowAttackIndicator.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
     }
 }
