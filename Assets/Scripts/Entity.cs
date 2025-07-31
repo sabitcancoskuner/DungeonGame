@@ -9,6 +9,8 @@ public class Entity : MonoBehaviour
     public float knockbackDuration;
     public float knockbackSpeed;
 
+    public bool isDead = false;
+
     protected virtual void Start()
     {
         rb = GetComponent<Rigidbody2D>();

@@ -12,6 +12,7 @@ public class PlayerHurtState : PlayerState
     {
         base.Enter();
 
+        player.SetAttackStatus(false);
         knockbackDuration = player.knockbackDuration;
         player.HitKnockback(player.knockbackSpeed);
     }
@@ -32,5 +33,6 @@ public class PlayerHurtState : PlayerState
     {
         base.Exit();
         knockbackDuration = 1f;
+        player.SetAttackStatus(true);
     }
 }

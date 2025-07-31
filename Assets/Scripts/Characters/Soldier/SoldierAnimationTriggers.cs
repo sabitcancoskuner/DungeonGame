@@ -73,10 +73,10 @@ public class SoldierAnimationTriggers : MonoBehaviour, IPlayerAnimationTriggers
         impulseSource.DefaultVelocity = new Vector2(shakeVelocityX, shakeVelocityY);
         CameraShakeManager.instance.ShakeCamera(impulseSource);
     }
-    
+
     private void ShowSpecialAttackAreaOfEffect()
     {
-        AreaOfEffectVisualizer.instance.ShowAreaOfEffect(soldier.transform.position, soldier.specialAttackRange ,soldier.animator.GetCurrentAnimatorClipInfo(0)[0].clip.length * 0.9f);
+        AreaOfEffectVisualizer.instance.ShowAreaOfEffect(soldier.transform.position, soldier.specialAttackRange, soldier.animator.GetCurrentAnimatorClipInfo(0)[0].clip.length * 0.9f);
     }
-    
+
 }

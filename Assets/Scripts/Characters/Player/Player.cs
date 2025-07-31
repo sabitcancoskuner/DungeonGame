@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -12,6 +13,7 @@ public class Player : Entity
     public Vector2 moveInput { get; private set; }
     public Animator animator { get; private set; }
 
+    public bool canAttack = true;
     public Transform attackPoint;
     public float attackRange;
 
@@ -44,6 +46,8 @@ public class Player : Entity
 
     protected virtual void Update()
     {
+        if (isDead) return;
+        
         moveInput = move.action.ReadValue<Vector2>();
 
         stateMachine.currentState.Update();
@@ -55,5 +59,17 @@ public class Player : Entity
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(attackPoint.position, attackRange);
     }
-    
+
+    public void SetAttackStatus(bool status)
+    {
+        canAttack = status;
+    }
+
+    public IEnumerator Die()
+    {
+        stateMachine.ChangeState(deathState);
+        yield return new WaitForSeconds(animator.GetCurrentAnimatorStateInfo(0).length);
+        Time.timeScale = 0f; // Pause the game
+        // Additional logic for player death can be added here
+    }
 }

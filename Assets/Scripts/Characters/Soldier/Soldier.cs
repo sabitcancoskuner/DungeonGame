@@ -15,6 +15,9 @@ public class Soldier : Player
     // Special Attack Area of Effect
     public float specialAttackRange = 1f;
 
+    // Soldier Stats
+    public PlayerStats stats;
+
     #region PlayerClass Specific States
     public SoldierBaseAttackState baseAttackState { get; private set; }
     public SoldierArrowAttackState arrowAttackState { get; private set; }
@@ -32,6 +35,7 @@ public class Soldier : Player
         specialAttackState = new SoldierSpecialAttackState(this, stateMachine, "SpecialAttack");
 
         indicatorDistance = arrowAttackIndicator.transform.localPosition.x;
+        stats = GetComponent<PlayerStats>();
     }
 
     protected override void Start()
@@ -43,10 +47,16 @@ public class Soldier : Player
     {
         base.Update();
 
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            stats.DecreaseHealth(10);
+        }
     }
 
     private void Attack(InputAction.CallbackContext context)
     {
+        if (!canAttack) return;
+        
         stateMachine.ChangeState(baseAttackState);
     }
 

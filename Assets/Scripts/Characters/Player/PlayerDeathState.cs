@@ -9,6 +9,8 @@ public class PlayerDeathState : PlayerState
     public override void Enter()
     {
         base.Enter();
+
+        player.isDead = true;
     }
 
     public override void Update()

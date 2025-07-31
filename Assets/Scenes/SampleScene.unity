@@ -256,6 +256,7 @@ MonoBehaviour:
   moveSpeed: 0
   knockbackDuration: 0.4
   knockbackSpeed: 2
+  isDead: 0
 --- !u!4 &289729251
 Transform:
   m_ObjectHideFlags: 0
@@ -1421,6 +1422,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1271389960}
   - component: {fileID: 1271389961}
+  - component: {fileID: 1271389966}
   - component: {fileID: 1271389964}
   - component: {fileID: 1271389963}
   - component: {fileID: 1271389965}
@@ -1465,10 +1467,12 @@ MonoBehaviour:
   moveSpeed: 4
   knockbackDuration: 0.6
   knockbackSpeed: 1.5
+  isDead: 0
   move: {fileID: -6292820564738780483, guid: 317530a5dfbbd1b4785cc52ef55d8b82, type: 3}
   baseAttack: {fileID: 8132763472658671675, guid: 317530a5dfbbd1b4785cc52ef55d8b82, type: 3}
   secondaryAttack: {fileID: 7341511516319783366, guid: 317530a5dfbbd1b4785cc52ef55d8b82, type: 3}
   specialAttack: {fileID: -2632123975601203612, guid: 317530a5dfbbd1b4785cc52ef55d8b82, type: 3}
+  canAttack: 1
   attackPoint: {fileID: 18159120}
   attackRange: 0.35
   arrowPrefab: {fileID: 6032563123181646954, guid: a1952f8b68f8fb04bbef7bf6e3d69290, type: 3}
@@ -1476,6 +1480,7 @@ MonoBehaviour:
   arrowAttackRange: 4.5
   arrowAttackIndicator: {fileID: 414709399}
   specialAttackRange: 2.5
+  stats: {fileID: 0}
 --- !u!50 &1271389963
 Rigidbody2D:
   serializedVersion: 5
@@ -1574,6 +1579,45 @@ CapsuleCollider2D:
   m_Offset: {x: 0.0103755295, y: 0.04773298}
   m_Size: {x: 0.1699124, y: 0.4618376}
   m_Direction: 0
+--- !u!114 &1271389966
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1271389959}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe2c123387d882f41be561c21bbea0e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health:
+    baseValue: 30
+    modifiers: []
+  defense:
+    baseValue: 0
+    modifiers: []
+  evasion:
+    baseValue: 0
+    modifiers: []
+  baseAttackDamage:
+    baseValue: 0
+    modifiers: []
+  specialAttackDamage:
+    baseValue: 0
+    modifiers: []
+  moveSpeed:
+    baseValue: 0
+    modifiers: []
+  attackSpeed:
+    baseValue: 0
+    modifiers: []
+  arrowDamage:
+    baseValue: 0
+    modifiers: []
+  arrowCount:
+    baseValue: 0
+    modifiers: []
 --- !u!1 &1515148225
 GameObject:
   m_ObjectHideFlags: 0
