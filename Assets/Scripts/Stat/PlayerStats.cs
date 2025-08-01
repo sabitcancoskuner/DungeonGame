@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class PlayerStats : EntityStats
 {
-    public Stat specialAttackDamage;
     public Stat moveSpeed;
     public Stat attackSpeed;
 

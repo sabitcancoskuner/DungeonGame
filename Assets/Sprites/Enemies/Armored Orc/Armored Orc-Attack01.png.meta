@@ -55,7 +55,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -69,7 +69,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 32
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -93,7 +93,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -134,10 +134,10 @@ TextureImporter:
       name: Armored Orc-Attack01_0
       rect:
         serializedVersion: 2
-        x: 41
-        y: 39
-        width: 27
-        height: 24
+        x: 0
+        y: 0
+        width: 100
+        height: 100
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -156,10 +156,10 @@ TextureImporter:
       name: Armored Orc-Attack01_1
       rect:
         serializedVersion: 2
-        x: 141
-        y: 39
-        width: 27
-        height: 25
+        x: 100
+        y: 0
+        width: 100
+        height: 100
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -178,10 +178,10 @@ TextureImporter:
       name: Armored Orc-Attack01_2
       rect:
         serializedVersion: 2
-        x: 241
-        y: 39
-        width: 23
-        height: 29
+        x: 200
+        y: 0
+        width: 100
+        height: 100
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -200,10 +200,10 @@ TextureImporter:
       name: Armored Orc-Attack01_3
       rect:
         serializedVersion: 2
-        x: 341
-        y: 39
-        width: 18
-        height: 31
+        x: 300
+        y: 0
+        width: 100
+        height: 100
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -222,10 +222,10 @@ TextureImporter:
       name: Armored Orc-Attack01_4
       rect:
         serializedVersion: 2
-        x: 440
-        y: 37
-        width: 34
-        height: 28
+        x: 400
+        y: 0
+        width: 100
+        height: 100
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -244,10 +244,10 @@ TextureImporter:
       name: Armored Orc-Attack01_5
       rect:
         serializedVersion: 2
-        x: 540
-        y: 37
-        width: 34
-        height: 26
+        x: 500
+        y: 0
+        width: 100
+        height: 100
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -266,10 +266,10 @@ TextureImporter:
       name: Armored Orc-Attack01_6
       rect:
         serializedVersion: 2
-        x: 640
-        y: 37
-        width: 28
-        height: 26
+        x: 600
+        y: 0
+        width: 100
+        height: 100
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -288,7 +288,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: f5efba2e7abb60141b4f8a4997a5b6bd
     internalID: 0
     vertices: []
     indices: 
@@ -297,7 +297,14 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Armored Orc-Attack01_0: -4391229105808040339
+      Armored Orc-Attack01_1: -2623769716515016114
+      Armored Orc-Attack01_2: -1645039322221516183
+      Armored Orc-Attack01_3: -5037064390051199659
+      Armored Orc-Attack01_4: -8369260045633568386
+      Armored Orc-Attack01_5: 3904658922933016028
+      Armored Orc-Attack01_6: 1581089029697298978
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -231,7 +231,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 289729251}
-  - component: {fileID: 289729250}
+  - component: {fileID: 289729254}
   - component: {fileID: 289729252}
   - component: {fileID: 289729253}
   m_Layer: 8
@@ -241,22 +241,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &289729250
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 289729249}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9102d0847e7b3a640bbf92fd09f4ecc9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveSpeed: 0
-  knockbackDuration: 0.4
-  knockbackSpeed: 2
-  isDead: 0
 --- !u!4 &289729251
 Transform:
   m_ObjectHideFlags: 0
@@ -337,6 +321,23 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!114 &289729254
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 289729249}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3cdbe1ebca10a64fa745391c62522ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 0
+  knockbackDuration: 0
+  knockbackSpeed: 0
+  isDead: 0
+  animator: {fileID: 0}
 --- !u!1 &331749104
 GameObject:
   m_ObjectHideFlags: 0
@@ -658,7 +659,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 7
 --- !u!1 &343752220
 GameObject:
   m_ObjectHideFlags: 0
@@ -1591,8 +1592,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe2c123387d882f41be561c21bbea0e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health:
-    baseValue: 30
+  currentHealth: 0
+  maxHealth:
+    baseValue: 0
     modifiers: []
   defense:
     baseValue: 0
@@ -1601,9 +1603,6 @@ MonoBehaviour:
     baseValue: 0
     modifiers: []
   baseAttackDamage:
-    baseValue: 0
-    modifiers: []
-  specialAttackDamage:
     baseValue: 0
     modifiers: []
   moveSpeed:
@@ -1618,6 +1617,13 @@ MonoBehaviour:
   arrowCount:
     baseValue: 0
     modifiers: []
+  specialAttackDamage:
+    baseValue: 0
+    modifiers: []
+  specialAttackRange:
+    baseValue: 0
+    modifiers: []
+  soldierStatSO: {fileID: 11400000, guid: 087c732617f3fda44984c96b45136ad0, type: 2}
 --- !u!1 &1515148225
 GameObject:
   m_ObjectHideFlags: 0
