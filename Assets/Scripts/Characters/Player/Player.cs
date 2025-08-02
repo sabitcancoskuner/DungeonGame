@@ -13,6 +13,7 @@ public class Player : Entity
     public Vector2 moveInput { get; private set; }
     public Animator animator { get; private set; }
 
+    public bool isDead = false;
     public bool canAttack = true;
     public Transform attackPoint;
     public float attackRange;

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using NUnit.Framework.Interfaces;
 using UnityEngine;
 
 public class DungeonGenerator : MonoBehaviour
@@ -8,6 +9,9 @@ public class DungeonGenerator : MonoBehaviour
     [SerializeField] private WalkerSO walker;
 
     [SerializeField] private TileMapVisualizer tileMapVisualizer;
+    [SerializeField] private GameObject nodePrefab;
+    [SerializeField] private GameObject nodeParentObject;
+    private List<Node> nodes = new List<Node>();
 
     [Space]
     [SerializeField] private int postProcessIterations = 5;
@@ -27,7 +31,8 @@ public class DungeonGenerator : MonoBehaviour
     private List<Vector2Int> wallConnectorsToPaint = new List<Vector2Int>();
     private List<Vector2Int> wallConnectorsDirections = new List<Vector2Int>();
 
-    private void Start() {
+    private void Start()
+    {
         GenerateDungeon();
     }
 
@@ -61,6 +66,8 @@ public class DungeonGenerator : MonoBehaviour
 
         GetAllFloorDirections(floorTilesToPaint, wallTilesToPaint, floorTileDirections);
         GetAllWallDirections(floorTilesToPaint, wallTilesToPaint, wallTileDirections);
+
+        CreateNodes(floorTilesToPaint);
 
         tileMapVisualizer.PaintFloorTiles(floorTilesToPaint, floorTileDirections);
         tileMapVisualizer.PaintWallTiles(wallTilesToPaint, wallTileDirections);
@@ -421,7 +428,7 @@ public class DungeonGenerator : MonoBehaviour
             {
                 if (wallTilePositions.Contains(tilePos + Vector2Int.right)) // left right tile
                 {
-                    floorTileDirectionList.Add(new Vector2Int(2, 2)); 
+                    floorTileDirectionList.Add(new Vector2Int(2, 2));
                 }
                 else
                 {
@@ -433,7 +440,7 @@ public class DungeonGenerator : MonoBehaviour
             {
                 if (wallTilePositions.Contains(tilePos + Vector2Int.left)) // left right tile
                 {
-                    floorTileDirectionList.Add(new Vector2Int(2, 2)); 
+                    floorTileDirectionList.Add(new Vector2Int(2, 2));
                 }
                 else
                 {
@@ -448,4 +455,74 @@ public class DungeonGenerator : MonoBehaviour
         }
     }
 
+    private void CreateNodes(HashSet<Vector2Int> floorTilePositions)
+    {
+        foreach (Vector2Int position in floorTilePositions)
+        {
+            GameObject nodeObject = Instantiate(nodePrefab, new Vector2((position.x / 2f) + 0.25f, (position.y / 2f) + 0.25f), Quaternion.identity, nodeParentObject.transform);
+            nodes.Add(nodeObject.GetComponent<Node>());
+        }
+
+        CreateConnections();
+    }
+
+    private void CreateConnections()
+    {
+        // Create a spatial hash for faster neighbor finding
+        Dictionary<Vector2Int, Node> nodeGrid = new Dictionary<Vector2Int, Node>();
+        
+        // Build a grid lookup - scale by 2 since nodes are at 0.5 intervals (position.x/2f + 0.25f)
+        foreach (Node node in nodes)
+        {
+            Vector2Int gridPos = new Vector2Int(
+                Mathf.RoundToInt((node.transform.position.x - 0.25f) * 2), 
+                Mathf.RoundToInt((node.transform.position.y - 0.25f) * 2)
+            );
+            
+            // Handle potential duplicate keys
+            if (!nodeGrid.ContainsKey(gridPos))
+            {
+                nodeGrid[gridPos] = node;
+            }
+        }
+        
+        // Only check adjacent grid positions for neighbors (8-directional)
+        Vector2Int[] adjacentOffsets = {
+            Vector2Int.up, Vector2Int.down, Vector2Int.left, Vector2Int.right,
+            new Vector2Int(1, 1), new Vector2Int(-1, 1), new Vector2Int(1, -1), new Vector2Int(-1, -1)
+        };
+        
+        int connectionsFound = 0;
+        
+        foreach (var kvp in nodeGrid)
+        {
+            Vector2Int gridPos = kvp.Key;
+            Node node = kvp.Value;
+            
+            foreach (Vector2Int offset in adjacentOffsets)
+            {
+                Vector2Int neighborPos = gridPos + offset;
+                if (nodeGrid.TryGetValue(neighborPos, out Node neighbor))
+                {
+                    float distance = Vector2.Distance(node.transform.position, neighbor.transform.position);
+                    // Increase threshold slightly to account for floating point precision
+                    if (distance <= 1.1f)
+                    {
+                        AddNeighbor(node, neighbor);
+                        AddNeighbor(neighbor, node);
+                        connectionsFound++;
+                    }
+                }
+            }
+        }
+
+    }
+
+    private void AddNeighbor(Node node, Node neighbor)
+    {
+        if (!node.neighbors.Contains(neighbor))
+        {
+            node.neighbors.Add(neighbor);
+        }
+    }
 }

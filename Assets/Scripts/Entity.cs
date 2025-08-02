@@ -9,8 +9,6 @@ public class Entity : MonoBehaviour
     public float knockbackDuration;
     public float knockbackSpeed;
 
-    public bool isDead = false;
-
     protected virtual void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -36,4 +34,5 @@ public class Entity : MonoBehaviour
     {
         rb.linearVelocity = new Vector2(facingDirection * -knockbackSpeed, 0);
     }
+
 }

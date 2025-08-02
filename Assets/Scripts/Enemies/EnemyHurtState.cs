@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class EnemyHurtState : EnemyState
 {
+    private float knockbackDuration;
+
     public EnemyHurtState(Enemy enemy, EnemyStateMachine stateMachine, string animBoolName) : base(enemy, stateMachine, animBoolName)
     {
     }
@@ -9,18 +11,26 @@ public class EnemyHurtState : EnemyState
     public override void Enter()
     {
         base.Enter();
-        // logic for entering hurt state can be added here
+
+        knockbackDuration = enemy.knockbackDuration;
+        enemy.HitKnockback(enemy.knockbackSpeed);
     }
 
     public override void Update()
     {
         base.Update();
-        // Logic for updating hurt state can be added here
+
+        knockbackDuration -= Time.deltaTime;
+
+        if (knockbackDuration <= 0)
+        {
+            stateMachine.ChangeState(enemy.idleState);
+        }
     }
 
     public override void Exit()
     {
         base.Exit();
-        // logic for exiting hurt state can be added here
+        
     }
 }

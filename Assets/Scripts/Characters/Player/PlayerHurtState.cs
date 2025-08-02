@@ -32,7 +32,6 @@ public class PlayerHurtState : PlayerState
     public override void Exit()
     {
         base.Exit();
-        knockbackDuration = 1f;
         player.SetAttackStatus(true);
     }
 }

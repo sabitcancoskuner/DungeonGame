@@ -45,10 +45,10 @@ public class SoldierAnimationTriggers : MonoBehaviour, IPlayerAnimationTriggers
     {
         Collider2D[] colliders = Physics2D.OverlapCircleAll(soldier.arrowAttackPoint.position, soldier.arrowAttackRange);
         Vector3 closestTargetPos = soldier.FindClosestTargetInArrowRange(colliders);
-        GameObject arrow = Instantiate(soldier.arrowPrefab, soldier.attackPoint.position, Quaternion.identity);
+        GameObject arrow = Instantiate(soldier.arrowPrefab, soldier.arrowAttackPoint.position, Quaternion.identity);
 
         BasicArrowController arrowController = arrow.GetComponent<BasicArrowController>();
-        arrowController.SetTargetPos(closestTargetPos);
+        arrowController.RotateArrow(closestTargetPos);
 
     }
 

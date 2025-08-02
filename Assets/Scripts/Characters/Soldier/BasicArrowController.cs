@@ -4,18 +4,16 @@ public class BasicArrowController : MonoBehaviour
 {
     [SerializeField] private float arrowSpeed = 10f;
     [SerializeField] private float arrowLifeTime = 3f;
-    [SerializeField] private Vector3 targetPos;
 
-    private Animator animator;
+    private Rigidbody2D rb;
 
-    private void Start()
+    private void Awake()
     {
-        animator = GetComponent<Animator>();
+        rb = GetComponent<Rigidbody2D>();
     }
 
     void Update()
     {
-        transform.position = Vector3.MoveTowards(transform.position, targetPos, arrowSpeed * Time.deltaTime);
         arrowLifeTime -= Time.deltaTime;
 
         if (arrowLifeTime <= 0f)
@@ -24,13 +22,7 @@ public class BasicArrowController : MonoBehaviour
         }
     }
 
-    public void SetTargetPos(Vector3 newTarget)
-    {
-        targetPos = newTarget;
-        RotateArrow();
-    }
-
-    private void RotateArrow()
+    public void RotateArrow(Vector3 targetPos)
     {
         // Rotate the arrow to face the target direction
         Vector3 direction = (targetPos - transform.position).normalized;
@@ -39,6 +31,7 @@ public class BasicArrowController : MonoBehaviour
         {
             float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
             transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+            rb.linearVelocity = direction * arrowSpeed; // Set the velocity towards the target
         }
     }
 
@@ -50,7 +43,7 @@ public class BasicArrowController : MonoBehaviour
 
             // Handle collision with enemy
             Debug.Log("Arrow hit an enemy.");
-            animator.SetBool("Pierce", true);
+            DestroyArrow();
         }
         else if (other.gameObject.layer == LayerMask.NameToLayer("Wall"))
         {
@@ -58,7 +51,6 @@ public class BasicArrowController : MonoBehaviour
             Debug.Log("Arrow hit a wall.");
             DestroyArrow();
         }
-
     }
     
     private void DestroyArrow()

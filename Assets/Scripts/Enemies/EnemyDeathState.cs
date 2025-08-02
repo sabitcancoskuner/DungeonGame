@@ -9,9 +9,7 @@ public class EnemyDeathState : EnemyState
     public override void Enter()
     {
         base.Enter();
-        // logic for entering death state can be added here
         enemy.SetZeroVelocity();
-        enemy.animator.SetTrigger("Die");
     }
 
     public override void Update()

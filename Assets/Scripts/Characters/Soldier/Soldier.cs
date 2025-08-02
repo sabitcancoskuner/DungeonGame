@@ -16,7 +16,7 @@ public class Soldier : Player
     public float specialAttackRange = 1f;
 
     // Soldier Stats
-    public PlayerStats stats;
+    public SoldierStats stats;
 
     #region PlayerClass Specific States
     public SoldierBaseAttackState baseAttackState { get; private set; }
@@ -35,12 +35,14 @@ public class Soldier : Player
         specialAttackState = new SoldierSpecialAttackState(this, stateMachine, "SpecialAttack");
 
         indicatorDistance = arrowAttackIndicator.transform.localPosition.x;
-        stats = GetComponent<PlayerStats>();
+        stats = GetComponent<SoldierStats>();
     }
 
     protected override void Start()
     {
         base.Start();
+
+        specialAttackRange = stats.specialAttackRange.GetValue();
     }
 
     protected override void Update()
@@ -93,7 +95,7 @@ public class Soldier : Player
 
         // Draw special attack range
         Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, specialAttackRange);
+        Gizmos.DrawWireSphere(transform.position, specialAttackRange / 2);
     }
     
     public Vector3 FindClosestTargetInArrowRange(Collider2D[] colliders)
@@ -140,6 +142,7 @@ public class Soldier : Player
         // Position indicator on circle around soldier
         Vector3 indicatorPosition = transform.position + (directionToTarget * indicatorDistance);
         arrowAttackIndicator.transform.position = indicatorPosition;
+        arrowAttackPoint.position = indicatorPosition;
 
         // Rotate indicator to point toward target
         float angle = Mathf.Atan2(directionToTarget.y, directionToTarget.x) * Mathf.Rad2Deg;

@@ -21,4 +21,4 @@ MonoBehaviour:
   arrowDamage: 15
   arrowCount: 4
   specialAttackDamage: 50
-  specialAttackRange: 0
+  specialAttackRange: 2.5
