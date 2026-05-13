@@ -54,7 +54,7 @@ Generation and navigation flow (high level):
 ## Controls
 
 - `W / A / S / D`: Move
-- `F`: Create new dungeon at players location.
+- `T`: Create new dungeon at players location.
 - `Left Mouse Button (LMB)`: Base attack
 - `Right Mouse Button (RMB)`: Secondary attack (hold/release charge behavior)
 - `Space`: Special attack
