@@ -32,7 +32,7 @@ public class EnemyWanderState : EnemyState
         // Switch to idle state after walking for a certain duration
         if (walkTimer <= 0f)
         {
-            stateMachine.ChangeState(((ArmoredOrc)enemy).idleState);
+            stateMachine.ChangeState(enemy.idleState);
         }
 
         // Flip the sprite based on the movement direction

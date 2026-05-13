@@ -1,14 +1,12 @@
 using System.Collections.Generic;
 using System.Linq;
-using NUnit.Framework.Interfaces;
 using UnityEngine;
 
 public class DungeonGenerator : MonoBehaviour
 {
-    private Vector2Int startPosition = Vector2Int.zero;
+    private Vector2Int startPosition;
     [SerializeField] private WalkerSO walker;
 
-    [SerializeField] private TileMapVisualizer tileMapVisualizer;
     [SerializeField] private GameObject nodePrefab;
     [SerializeField] private GameObject nodeParentObject;
     private List<Node> nodes = new List<Node>();
@@ -22,22 +20,49 @@ public class DungeonGenerator : MonoBehaviour
     [SerializeField] private int wallFlipFloorThreshold = 5;
     [SerializeField] private int wallFlipThreshold = 3;
 
-    private HashSet<Vector2Int> floorTilesToPaint = new HashSet<Vector2Int>();
-    private List<Vector2Int> floorTileDirections = new List<Vector2Int>();
+    private HashSet<Vector2Int> floorTilesToPaint;
+    private List<Vector2Int> floorTileDirections;
 
-    private HashSet<Vector2Int> wallTilesToPaint = new HashSet<Vector2Int>();
-    private List<Vector2Int> wallTileDirections = new List<Vector2Int>();
+    private HashSet<Vector2Int> wallTilesToPaint;
+    private List<Vector2Int> wallTileDirections;
 
-    private List<Vector2Int> wallConnectorsToPaint = new List<Vector2Int>();
-    private List<Vector2Int> wallConnectorsDirections = new List<Vector2Int>();
-
+    private List<Vector2Int> wallConnectorsToPaint;
+    private List<Vector2Int> wallConnectorsDirections;
+    
     private void Start()
     {
+        floorTilesToPaint = new HashSet<Vector2Int>();
+        floorTileDirections = new List<Vector2Int>();
+
+        wallTilesToPaint = new HashSet<Vector2Int>();
+        wallTileDirections = new List<Vector2Int>();
+        
+        wallConnectorsToPaint = new List<Vector2Int>();
+        wallConnectorsDirections = new List<Vector2Int>();
+
         GenerateDungeon();
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            GenerateDungeon();
+        }
     }
 
     public void GenerateDungeon()
     {
+        startPosition = PlayerManager.Instance.GetPlayerGridLocation();
+        
+        foreach (Node node in nodes)
+        {
+            if (node != null)
+            {
+                Destroy(node.gameObject);
+            }
+        }
+        nodes.Clear();
 
         floorTilesToPaint.Clear();
         floorTileDirections.Clear();
@@ -53,8 +78,9 @@ public class DungeonGenerator : MonoBehaviour
         for (int i = 0; i < walker.numOfWalkers; i++)
         {
             GenerateDungeonCorridors(walker.corridorLength);
-            GenerateDungeonWall(floorTilesToPaint);
         }
+
+        GenerateDungeonWall(floorTilesToPaint);
 
         for (int i = 0; i < postProcessIterations; i++)
         {
@@ -62,16 +88,23 @@ public class DungeonGenerator : MonoBehaviour
             WallPostProcessing(floorTilesToPaint, wallTilesToPaint);
         }
 
+        EnsureConnectivity(floorTilesToPaint);
+
+        GenerateDungeonWall(floorTilesToPaint);
+
         FindAllConnectorPositions(floorTilesToPaint, wallTilesToPaint); // for wall connectors
 
         GetAllFloorDirections(floorTilesToPaint, wallTilesToPaint, floorTileDirections);
         GetAllWallDirections(floorTilesToPaint, wallTilesToPaint, wallTileDirections);
 
         CreateNodes(floorTilesToPaint);
+        AStarManager.instance.CacheNodes(nodes);
 
-        tileMapVisualizer.PaintFloorTiles(floorTilesToPaint, floorTileDirections);
-        tileMapVisualizer.PaintWallTiles(wallTilesToPaint, wallTileDirections);
-        tileMapVisualizer.PaintWallConnectors(wallConnectorsToPaint, wallConnectorsDirections);
+        TileMapVisualizer.Instance.PaintFloorTiles(floorTilesToPaint, floorTileDirections);
+        TileMapVisualizer.Instance.PaintWallTiles(wallTilesToPaint, wallTileDirections);
+        TileMapVisualizer.Instance.PaintWallConnectors(wallConnectorsToPaint, wallConnectorsDirections);
+
+        // MapCameraFramer.Instance.FrameTilemapDungeon();
     }
 
     private void GenerateDungeonCorridors(int corridorLength)
@@ -126,12 +159,12 @@ public class DungeonGenerator : MonoBehaviour
         List<Vector2Int> tilesToFill = new List<Vector2Int>();
         int neighbourCount = 0;
 
-        HashSet<Vector2Int> allTilePositions = new HashSet<Vector2Int>();
-        allTilePositions.UnionWith(floorTilePositions);
-        allTilePositions.UnionWith(wallTilePositions);
-
         for (int i = 0; i < gapFillIterations; i++)
         {
+            HashSet<Vector2Int> allTilePositions = new HashSet<Vector2Int>();
+            allTilePositions.UnionWith(floorTilePositions);
+            allTilePositions.UnionWith(wallTilePositions);
+
             foreach (Vector2Int position in allTilePositions)
             {
                 foreach (Vector2Int direction in Direction.eightWayDirectionList)
@@ -158,6 +191,8 @@ public class DungeonGenerator : MonoBehaviour
             {
                 wallTilePositions.Remove(tile);
             }
+
+            tilesToFill.Clear();
         }
     }
 
@@ -198,7 +233,7 @@ public class DungeonGenerator : MonoBehaviour
                     wallTilesToRemove.Add(position);
                 }
 
-                if (wallNeighbourCount >= wallFlipThreshold)
+                else if (wallNeighbourCount >= wallFlipThreshold)
                 {
                     floorTilePositions.Add(position);
                     wallTilesToRemove.Add(position);
@@ -210,8 +245,10 @@ public class DungeonGenerator : MonoBehaviour
 
             foreach (Vector2Int tile in wallTilesToRemove)
             {
-                wallTilesToPaint.Remove(tile);
+                wallTilePositions.Remove(tile);
             }
+
+            wallTilesToRemove.Clear();
         }
     }
 
@@ -311,12 +348,12 @@ public class DungeonGenerator : MonoBehaviour
         {
             if (floorTilePositions.Contains(wallTile + Vector2Int.up)) // then it is a bottom tile
             {
-                if (floorTilesToPaint.Contains(wallTile + Vector2Int.left))
+                if (floorTilePositions.Contains(wallTile + Vector2Int.left))
                 {
                     wallTilesDirectionList.Add(new Vector2Int(1, -1)); // bottom right tile
                 }
 
-                else if (floorTilesToPaint.Contains(wallTile + Vector2Int.right))
+                else if (floorTilePositions.Contains(wallTile + Vector2Int.right))
                 {
                     wallTilesDirectionList.Add(new Vector2Int(-1, -1)); // bottom left tile
                 }
@@ -329,12 +366,12 @@ public class DungeonGenerator : MonoBehaviour
 
             else if (floorTilePositions.Contains(wallTile + Vector2Int.down)) // then it is a top tile
             {
-                if (floorTilesToPaint.Contains(wallTile + Vector2Int.left))
+                if (floorTilePositions.Contains(wallTile + Vector2Int.left))
                 {
                     wallTilesDirectionList.Add(new Vector2Int(1, 1)); // top right tile
                 }
 
-                else if (floorTilesToPaint.Contains(wallTile + Vector2Int.right))
+                else if (floorTilePositions.Contains(wallTile + Vector2Int.right))
                 {
                     wallTilesDirectionList.Add(new Vector2Int(-1, 1)); // top left tile
                 }
@@ -379,6 +416,10 @@ public class DungeonGenerator : MonoBehaviour
                 {
                     wallTilesDirectionList.Add(Vector2Int.left);
                 }
+            }
+            else
+            {
+                wallTilesDirectionList.Add(Vector2Int.zero);
             }
 
         }
@@ -455,6 +496,86 @@ public class DungeonGenerator : MonoBehaviour
         }
     }
 
+    private void EnsureConnectivity(HashSet<Vector2Int> floorTilePositions)
+    {
+        while (true)
+        {
+            // Pick any floor tile as the start and flood fill to find all reachable tiles
+            Vector2Int start = floorTilePositions.First();
+            HashSet<Vector2Int> reachable = FloodFill(start, floorTilePositions);
+
+            if (reachable.Count == floorTilePositions.Count)
+                break; // fully connected
+
+            // Find the closest pair between reachable and unreachable
+            Vector2Int bestReachable = Vector2Int.zero;
+            Vector2Int bestUnreachable = Vector2Int.zero;
+            int bestDistance = int.MaxValue;
+
+            foreach (Vector2Int unreachableTile in floorTilePositions)
+            {
+                if (reachable.Contains(unreachableTile)) continue;
+
+                foreach (Vector2Int reachableTile in reachable)
+                {
+                    int dist = Mathf.Abs(unreachableTile.x - reachableTile.x) + Mathf.Abs(unreachableTile.y - reachableTile.y);
+                    if (dist < bestDistance)
+                    {
+                        bestDistance = dist;
+                        bestReachable = reachableTile;
+                        bestUnreachable = unreachableTile;
+                    }
+                }
+            }
+
+            // Carve a straight corridor between the two closest tiles
+            CarveCorridorBetween(bestReachable, bestUnreachable, floorTilePositions);
+            GenerateDungeonWall(floorTilePositions);
+        }
+    }
+
+    private HashSet<Vector2Int> FloodFill(Vector2Int start, HashSet<Vector2Int> floorTilePositions)
+    {
+        HashSet<Vector2Int> visited = new HashSet<Vector2Int>();
+        Queue<Vector2Int> queue = new Queue<Vector2Int>();
+        queue.Enqueue(start);
+        visited.Add(start);
+
+        while (queue.Count > 0)
+        {
+            Vector2Int current = queue.Dequeue();
+            foreach (Vector2Int direction in Direction.fourWayDirectionList)
+            {
+                Vector2Int neighbour = current + direction;
+                if (floorTilePositions.Contains(neighbour) && !visited.Contains(neighbour))
+                {
+                    visited.Add(neighbour);
+                    queue.Enqueue(neighbour);
+                }
+            }
+        }
+
+        return visited;
+    }
+
+    private void CarveCorridorBetween(Vector2Int from, Vector2Int to, HashSet<Vector2Int> floorTilePositions)
+    {
+        Vector2Int current = from;
+
+        // Walk horizontally first, then vertically
+        while (current.x != to.x)
+        {
+            current.x += (to.x > current.x) ? 1 : -1;
+            floorTilePositions.Add(current);
+        }
+
+        while (current.y != to.y)
+        {
+            current.y += (to.y > current.y) ? 1 : -1;
+            floorTilePositions.Add(current);
+        }
+    }
+
     private void CreateNodes(HashSet<Vector2Int> floorTilePositions)
     {
         foreach (Vector2Int position in floorTilePositions)
@@ -492,8 +613,6 @@ public class DungeonGenerator : MonoBehaviour
             new Vector2Int(1, 1), new Vector2Int(-1, 1), new Vector2Int(1, -1), new Vector2Int(-1, -1)
         };
         
-        int connectionsFound = 0;
-        
         foreach (var kvp in nodeGrid)
         {
             Vector2Int gridPos = kvp.Key;
@@ -510,7 +629,6 @@ public class DungeonGenerator : MonoBehaviour
                     {
                         AddNeighbor(node, neighbor);
                         AddNeighbor(neighbor, node);
-                        connectionsFound++;
                     }
                 }
             }

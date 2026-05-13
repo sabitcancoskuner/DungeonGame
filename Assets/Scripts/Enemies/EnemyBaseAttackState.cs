@@ -10,6 +10,7 @@ public class EnemyBaseAttackState : EnemyState
     {
         base.Enter();
         // logic for entering attack state can be added here
+        enemy.SetAlertAreaActive(false); // Disable alert area during attack
     }
 
     public override void Update()
@@ -22,5 +23,6 @@ public class EnemyBaseAttackState : EnemyState
     {
         base.Exit();
         // logic for exiting attack state can be added here
+        enemy.SetAlertAreaActive(true); // Re-enable alert area when exiting attack
     }
 }

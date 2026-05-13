@@ -14,8 +14,10 @@ public class SoldierStats : PlayerStats
 
     [SerializeField] private SoldierStatSO soldierStatSO;
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
+
         soldier = GetComponent<Soldier>();
 
         // Set stats base value from the StatSO
@@ -35,7 +37,7 @@ public class SoldierStats : PlayerStats
     {
         base.DecreaseHealth(amount);
 
-        if (currentHealth <= 0)
+        if (currentHealth <= 0 && !soldier.isDead)
         {
             // Handle soldier death logic here
             StartCoroutine(soldier.Die());

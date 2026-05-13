@@ -14,6 +14,7 @@ public class EnemyHurtState : EnemyState
 
         knockbackDuration = enemy.knockbackDuration;
         enemy.HitKnockback(enemy.knockbackSpeed);
+        enemy.SetAttackStatus(false);
     }
 
     public override void Update()
@@ -31,6 +32,7 @@ public class EnemyHurtState : EnemyState
     public override void Exit()
     {
         base.Exit();
-        
+
+        enemy.SetAttackStatus(true);
     }
 }

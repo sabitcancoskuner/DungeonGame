@@ -6,6 +6,9 @@ public class EnemyState
     public EnemyStateMachine stateMachine { get; private set; }
     public string animBoolName { get; private set; }
 
+    protected bool baseAttackTriggerCalled = false;
+    protected bool secondaryAttackTriggerCalled = false;
+
     public EnemyState(Enemy enemy, EnemyStateMachine stateMachine, string animBoolName)
     {
         this.enemy = enemy;
@@ -22,9 +25,19 @@ public class EnemyState
     {
         // Default update logic for enemy states can be added here
     }
-    
+
     public virtual void Exit()
     {
         enemy.animator.SetBool(animBoolName, false);
+    }
+
+    public virtual void BaseAttackAnimationFinishTrigger()
+    {
+        baseAttackTriggerCalled = true;
+    }
+    
+    public virtual void SecondaryAttackAnimationFinishTrigger()
+    {
+        secondaryAttackTriggerCalled = true;
     }
 }

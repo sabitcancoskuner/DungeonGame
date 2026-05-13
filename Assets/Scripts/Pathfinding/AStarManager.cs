@@ -5,6 +5,13 @@ public class AStarManager : MonoBehaviour
 {
     public static AStarManager instance;
 
+    private Node[] cachedNodes;
+
+    public void CacheNodes(List<Node> nodes)
+    {
+        cachedNodes = nodes.ToArray();
+    }
+
     private void Awake()
     {
         if (instance == null)
@@ -20,9 +27,8 @@ public class AStarManager : MonoBehaviour
     public List<Node> GeneratePath(Node start, Node end)
     {
         List<Node> openSet = new List<Node>();
-        openSet.Add(start);
 
-        foreach (Node n in FindObjectsByType<Node>(FindObjectsInactive.Exclude, FindObjectsSortMode.None))
+        foreach (Node n in cachedNodes)
         {
             n.gScore = float.MaxValue;
         }
@@ -85,11 +91,10 @@ public class AStarManager : MonoBehaviour
 
     public static Node GetNodeFromWorldPosition(Vector3 worldPosition)
     {
-        Node[] allNodes = FindObjectsByType<Node>(FindObjectsInactive.Exclude, FindObjectsSortMode.None);
         Node closestNode = null;
         float closestDistance = float.MaxValue;
 
-        foreach (Node node in allNodes)
+        foreach (Node node in instance.cachedNodes)
         {
             float distance = Vector3.Distance(worldPosition, node.transform.position);
             if (distance < closestDistance)

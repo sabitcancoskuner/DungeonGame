@@ -4,9 +4,12 @@ using UnityEngine.Tilemaps;
 
 public class TileMapVisualizer : MonoBehaviour
 {
+    public static TileMapVisualizer Instance;
 
     [SerializeField] private Tilemap floorTilemap;
     [SerializeField] private Tilemap wallTileMap;
+    [SerializeField] private Tilemap mapFloorTileMap;
+    [SerializeField] private Tilemap mapWallTileMap;
 
     [Header("Floor Tiles")]
     [SerializeField] private List<TileBase> baseFloorTiles;
@@ -40,15 +43,33 @@ public class TileMapVisualizer : MonoBehaviour
     [SerializeField] private TileBase bottomLeftConnector;
     [SerializeField] private TileBase bottomRightConnector;
 
+    [Header("Minimap Tiles")]
+    [SerializeField] private TileBase floorTile;
+    [SerializeField] private TileBase wallTile;
+
+    private void Awake()
+    {
+        if (Instance != this && Instance != null)
+        {
+            Destroy(this.gameObject);
+            return;
+        }
+
+        Instance = this;
+    }
+
     public void PaintFloorTiles(HashSet<Vector2Int> floorPositions, List<Vector2Int> directionList)
     {
         floorTilemap.ClearAllTiles();
+        mapFloorTileMap.ClearAllTiles();
+
         int directionIndex = 0;
         foreach (Vector2Int position in floorPositions)
         {
             TileBase floorTileToPaintWith = GetFloorTileFromDirection(directionList, directionIndex);
 
             PaintSingleTile(floorTilemap, floorTileToPaintWith, position);
+            PaintSingleTile(mapFloorTileMap, floorTile, position);
             directionIndex++;
         }
     }
@@ -56,12 +77,15 @@ public class TileMapVisualizer : MonoBehaviour
     public void PaintWallTiles(HashSet<Vector2Int> wallPositions, List<Vector2Int> directionList)
     {
         wallTileMap.ClearAllTiles();
+        mapWallTileMap.ClearAllTiles();
+
         int directionIndex = 0;
         foreach (Vector2Int position in wallPositions)
         {
             TileBase wallTileToPaintWith = GetWallTileFromDirection(directionList, directionIndex);
 
             PaintSingleTile(wallTileMap, wallTileToPaintWith, position);
+            PaintSingleTile(mapWallTileMap, wallTile, position);
             directionIndex++;
         }
     }
@@ -75,6 +99,7 @@ public class TileMapVisualizer : MonoBehaviour
             TileBase tileToPaintWith = GetConnectorTileFromDirection(wallConnectorDirections, directionIndex);
 
             PaintSingleTile(wallTileMap, tileToPaintWith, position);
+            PaintSingleTile(mapWallTileMap, wallTile, position);
             directionIndex++;
         }
     }

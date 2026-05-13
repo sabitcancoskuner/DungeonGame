@@ -7,7 +7,7 @@ public class Player : Entity
     [Space]
     [SerializeField] protected InputActionReference move;
     [SerializeField] protected InputActionReference baseAttack;
-    [SerializeField] protected InputActionReference secondaryAttack;
+    public InputActionReference secondaryAttack;
     [SerializeField] protected InputActionReference specialAttack;
 
     public Vector2 moveInput { get; private set; }
@@ -48,7 +48,7 @@ public class Player : Entity
     protected virtual void Update()
     {
         if (isDead) return;
-        
+    
         moveInput = move.action.ReadValue<Vector2>();
 
         stateMachine.currentState.Update();
@@ -56,9 +56,12 @@ public class Player : Entity
 
     protected virtual void OnDrawGizmos()
     {
-        // Attack range visualization
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(attackPoint.position, attackRange);
+        if (attackPoint != null)
+        {
+            // Attack range visualization
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(attackPoint.position, attackRange);
+        }
     }
 
     public void SetAttackStatus(bool status)
@@ -69,6 +72,7 @@ public class Player : Entity
     public IEnumerator Die()
     {
         stateMachine.ChangeState(deathState);
+        yield return null; // wait for end of frame before reading
         yield return new WaitForSeconds(animator.GetCurrentAnimatorStateInfo(0).length);
         Time.timeScale = 0f; // Pause the game
         // Additional logic for player death can be added here

@@ -6,7 +6,8 @@ public class EnemyChaseState : EnemyState
     private List<Node> path;
     private int currentPathIndex;
     private float pathUpdateTimer;
-    private float pathUpdateInterval = .6f; // Increased to reduce frequent updates
+    private float pathUpdateInterval = .4f; // Increased to reduce frequent updates
+    protected float distanceToPlayer = float.MaxValue;
 
     public EnemyChaseState(Enemy enemy, EnemyStateMachine stateMachine, string animBoolName) : base(enemy, stateMachine, animBoolName)
     {
@@ -22,7 +23,7 @@ public class EnemyChaseState : EnemyState
     public override void Update()
     {
         base.Update();
-        
+
         // Update path periodically to chase moving player
         pathUpdateTimer -= Time.deltaTime;
 
@@ -31,9 +32,17 @@ public class EnemyChaseState : EnemyState
             GenerateNewPath();
             pathUpdateTimer = pathUpdateInterval;
         }
-        
+
         // Follow the current path
         FollowPath();
+        CalculateDistanceToPlayer();
+
+        // If player is out of chase range, switch to idle state
+        if (distanceToPlayer > 8f)
+        {
+            stateMachine.ChangeState(enemy.idleState);
+        }
+        
     }
 
     public override void Exit()
@@ -50,7 +59,7 @@ public class EnemyChaseState : EnemyState
         if (startNode != null && targetNode != null)
         {
             List<Node> newPath = AStarManager.instance.GeneratePath(startNode, targetNode);
-            
+
             // Only update path if we got a valid new path
             if (newPath != null && newPath.Count > 0)
             {
@@ -80,7 +89,8 @@ public class EnemyChaseState : EnemyState
 
         // Move towards the target node
         Vector3 direction = (targetPosition - enemy.transform.position).normalized;
-        enemy.rb.linearVelocity = direction * enemy.moveSpeed;
+        
+        enemy.rb.linearVelocity = direction.normalized * enemy.moveSpeed;
 
         // Check if we're close enough to the current target node
         float distanceToTarget = Vector3.Distance(enemy.transform.position, targetPosition);
@@ -101,5 +111,11 @@ public class EnemyChaseState : EnemyState
                 enemy.FlipSprite();
             }
         }
+    }
+
+    private void CalculateDistanceToPlayer()
+    {
+        Vector3 playerPosition = enemy.GetPlayerPosition();
+        distanceToPlayer = Vector3.Distance(enemy.transform.position, playerPosition);
     }
 }

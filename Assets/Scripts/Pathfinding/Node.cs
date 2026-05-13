@@ -4,7 +4,7 @@ using UnityEngine;
 public class Node : MonoBehaviour
 {
     public Node cameFrom;
-    public List<Node> neighbors;
+    public List<Node> neighbors = new List<Node>();
 
     public float gScore;
     public float hScore;

@@ -15,7 +15,7 @@ public class SoldierArrowChargingState : SoldierArrowAttackState
     { 
         base.Update();
         
-        if (!Input.GetKey(KeyCode.Mouse1) && base.player.animator.speed == 0)
+        if (!player.secondaryAttack.action.IsPressed() && base.player.animator.speed == 0)
         {
             soldier.animator.speed = 1; // continue secondary attack animation when right click is released
             CameraManager.instance.StartCoroutine(CameraManager.instance.UnzoomCamera(0.5f, 0.3f));

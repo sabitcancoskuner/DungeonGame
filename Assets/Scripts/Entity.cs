@@ -25,7 +25,7 @@ public class Entity : MonoBehaviour
         rb.linearVelocity = Vector2.zero;
     }
 
-    public void SetVelocity(float speed)
+    public void SetSpeed(float speed)
     {
         moveSpeed = speed;
     }

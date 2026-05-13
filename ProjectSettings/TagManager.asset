@@ -14,7 +14,7 @@ TagManager:
   - Wall
   - Floor
   - Player
-  - 
+  - Map
   - 
   - 
   - 
@@ -49,6 +49,9 @@ TagManager:
     locked: 0
   - name: Wall
     uniqueID: 1705353573
+    locked: 0
+  - name: Map
+    uniqueID: 3674426037
     locked: 0
   m_RenderingLayers:
   - Default

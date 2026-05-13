@@ -48,11 +48,6 @@ public class Soldier : Player
     protected override void Update()
     {
         base.Update();
-
-        if (Input.GetKeyDown(KeyCode.F))
-        {
-            stats.DecreaseHealth(10);
-        }
     }
 
     private void Attack(InputAction.CallbackContext context)
@@ -64,11 +59,15 @@ public class Soldier : Player
 
     private void SecondaryAttack(InputAction.CallbackContext context)
     {
+        if (!canAttack) return;
+
         stateMachine.ChangeState(arrowAttackState);
     }
 
     private void SpecialAttack(InputAction.CallbackContext context)
     {
+        if (!canAttack) return;
+        
         stateMachine.ChangeState(specialAttackState);
     }
 
